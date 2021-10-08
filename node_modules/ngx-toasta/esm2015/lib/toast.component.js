@@ -1,0 +1,50 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ToastData } from './toasta.service';
+/**
+ * A Toast component shows message with title and close button.
+ */
+export class ToastComponent {
+    constructor() {
+        this.closeToastEvent = new EventEmitter();
+    }
+    /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     * @param {?} $event
+     * @return {?}
+     */
+    close($event) {
+        $event.preventDefault();
+        this.closeToastEvent.next(this.toast);
+    }
+}
+ToastComponent.decorators = [
+    { type: Component, args: [{
+                selector: 'ngx-toast',
+                template: `
+        <div class="toast" [ngClass]="[toast.type, toast.theme]">
+            <div *ngIf="toast.showClose" class="close-button" (click)="close($event)"></div>
+            <div *ngIf="toast.title || toast.msg" class="toast-text">
+                <span *ngIf="toast.title" class="toast-title" [innerHTML]="toast.title | safeHtml"></span>
+                <br *ngIf="toast.title && toast.msg" />
+                <span *ngIf="toast.msg" class="toast-msg" [innerHtml]="toast.msg | safeHtml"></span>
+            </div>
+        </div>`
+            },] },
+];
+ToastComponent.propDecorators = {
+    toast: [{ type: Input }],
+    closeToastEvent: [{ type: Output, args: ['closeToast',] }]
+};
+function ToastComponent_tsickle_Closure_declarations() {
+    /** @type {?} */
+    ToastComponent.prototype.toast;
+    /** @type {?} */
+    ToastComponent.prototype.closeToastEvent;
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidG9hc3QuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6Im5nOi8vbmd4LXRvYXN0YS8iLCJzb3VyY2VzIjpbImxpYi90b2FzdC5jb21wb25lbnQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE9BQU8sRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFFLE1BQU0sRUFBRSxZQUFZLEVBQUUsTUFBTSxlQUFlLENBQUM7QUFFdkUsT0FBTyxFQUFFLFNBQVMsRUFBRSxNQUFNLGtCQUFrQixDQUFDOzs7O0FBaUI3QyxNQUFNOzsrQkFHb0MsSUFBSSxZQUFZLEVBQUU7Ozs7Ozs7O0lBTTFELEtBQUssQ0FBQyxNQUFXO1FBQ2YsTUFBTSxDQUFDLGNBQWMsRUFBRSxDQUFDO1FBQ3hCLElBQUksQ0FBQyxlQUFlLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQztLQUN2Qzs7O1lBeEJGLFNBQVMsU0FBQztnQkFDVCxRQUFRLEVBQUUsV0FBVztnQkFDckIsUUFBUSxFQUFFOzs7Ozs7OztlQVFHO2FBQ2Q7OztvQkFHRSxLQUFLOzhCQUNMLE1BQU0sU0FBQyxZQUFZIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBJbnB1dCwgT3V0cHV0LCBFdmVudEVtaXR0ZXIgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcclxuXHJcbmltcG9ydCB7IFRvYXN0RGF0YSB9IGZyb20gJy4vdG9hc3RhLnNlcnZpY2UnO1xyXG5cclxuLyoqXHJcbiAqIEEgVG9hc3QgY29tcG9uZW50IHNob3dzIG1lc3NhZ2Ugd2l0aCB0aXRsZSBhbmQgY2xvc2UgYnV0dG9uLlxyXG4gKi9cclxuQENvbXBvbmVudCh7XHJcbiAgc2VsZWN0b3I6ICduZ3gtdG9hc3QnLFxyXG4gIHRlbXBsYXRlOiBgXHJcbiAgICAgICAgPGRpdiBjbGFzcz1cInRvYXN0XCIgW25nQ2xhc3NdPVwiW3RvYXN0LnR5cGUsIHRvYXN0LnRoZW1lXVwiPlxyXG4gICAgICAgICAgICA8ZGl2ICpuZ0lmPVwidG9hc3Quc2hvd0Nsb3NlXCIgY2xhc3M9XCJjbG9zZS1idXR0b25cIiAoY2xpY2spPVwiY2xvc2UoJGV2ZW50KVwiPjwvZGl2PlxyXG4gICAgICAgICAgICA8ZGl2ICpuZ0lmPVwidG9hc3QudGl0bGUgfHwgdG9hc3QubXNnXCIgY2xhc3M9XCJ0b2FzdC10ZXh0XCI+XHJcbiAgICAgICAgICAgICAgICA8c3BhbiAqbmdJZj1cInRvYXN0LnRpdGxlXCIgY2xhc3M9XCJ0b2FzdC10aXRsZVwiIFtpbm5lckhUTUxdPVwidG9hc3QudGl0bGUgfCBzYWZlSHRtbFwiPjwvc3Bhbj5cclxuICAgICAgICAgICAgICAgIDxiciAqbmdJZj1cInRvYXN0LnRpdGxlICYmIHRvYXN0Lm1zZ1wiIC8+XHJcbiAgICAgICAgICAgICAgICA8c3BhbiAqbmdJZj1cInRvYXN0Lm1zZ1wiIGNsYXNzPVwidG9hc3QtbXNnXCIgW2lubmVySHRtbF09XCJ0b2FzdC5tc2cgfCBzYWZlSHRtbFwiPjwvc3Bhbj5cclxuICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgPC9kaXY+YFxyXG59KVxyXG5leHBvcnQgY2xhc3MgVG9hc3RDb21wb25lbnQge1xyXG5cclxuICBASW5wdXQoKSB0b2FzdDogVG9hc3REYXRhO1xyXG4gIEBPdXRwdXQoJ2Nsb3NlVG9hc3QnKSBjbG9zZVRvYXN0RXZlbnQgPSBuZXcgRXZlbnRFbWl0dGVyKCk7XHJcblxyXG4gIC8qKlxyXG4gICAqIEV2ZW50IGhhbmRsZXIgaW52b2tlcyB3aGVuIHVzZXIgY2xpY2tzIG9uIGNsb3NlIGJ1dHRvbi5cclxuICAgKiBUaGlzIG1ldGhvZCBlbWl0IG5ldyBldmVudCBpbnRvIFRvYXN0YUNvbnRhaW5lciB0byBjbG9zZSBpdC5cclxuICAgKi9cclxuICBjbG9zZSgkZXZlbnQ6IGFueSkge1xyXG4gICAgJGV2ZW50LnByZXZlbnREZWZhdWx0KCk7XHJcbiAgICB0aGlzLmNsb3NlVG9hc3RFdmVudC5uZXh0KHRoaXMudG9hc3QpO1xyXG4gIH1cclxufVxyXG4iXX0=

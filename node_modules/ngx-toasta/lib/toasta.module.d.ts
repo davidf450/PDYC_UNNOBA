@@ -1,0 +1,10 @@
+import { ModuleWithProviders } from "@angular/core";
+import { ToastaService, ToastaConfig, toastaServiceFactory } from './toasta.service';
+export declare let providers: (typeof ToastaConfig | {
+    provide: typeof ToastaService;
+    useFactory: typeof toastaServiceFactory;
+    deps: (typeof ToastaConfig)[];
+})[];
+export declare class ToastaModule {
+    static forRoot(): ModuleWithProviders;
+}

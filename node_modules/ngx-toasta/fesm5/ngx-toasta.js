@@ -1,0 +1,714 @@
+import { Injectable, Component, Input, Output, EventEmitter, Pipe, NgModule } from '@angular/core';
+import { Subject } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Check and return true if an object is type of string
+ * @param {?} obj Analyse has to object the string type
+ * @return {?} result of analysis
+ */
+function isString(obj) {
+    return typeof obj === "string";
+}
+/**
+ * Check and return true if an object is type of number
+ * @param {?} obj Analyse has to object the boolean type
+ * @return {?} result of analysis
+ */
+function isNumber(obj) {
+    return typeof obj === "number";
+}
+/**
+ * Check and return true if an object is type of Function
+ * @param {?} obj Analyse has to object the function type
+ * @return {?} result of analysis
+ */
+function isFunction(obj) {
+    return typeof obj === "function";
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Options to configure a new Toast
+ */
+var ToastOptions = /** @class */ (function () {
+    function ToastOptions() {
+    }
+    ToastOptions.decorators = [
+        { type: Injectable },
+    ];
+    return ToastOptions;
+}());
+/**
+ * Structrure of a created Toast
+ */
+var ToastData = /** @class */ (function () {
+    function ToastData() {
+    }
+    ToastData.decorators = [
+        { type: Injectable },
+    ];
+    return ToastData;
+}());
+/**
+ * Default configuration for all toasts and toasta container
+ */
+var ToastaConfig = /** @class */ (function () {
+    function ToastaConfig() {
+        // Maximum number of toasties to show at once
+        this.limit = 5;
+        // Whether to show the 'X' icon to close the toast
+        this.showClose = true;
+        // The window position where the toast pops up
+        this.position = 'bottom-right';
+        // How long (in miliseconds) the toasta shows before it's removed. Set to null/0 to turn off.
+        this.timeout = 5000;
+        // What theme to use
+        this.theme = 'default';
+    }
+    ToastaConfig.decorators = [
+        { type: Injectable },
+    ];
+    return ToastaConfig;
+}());
+/** @enum {number} */
+var ToastaEventType = {
+    ADD: 0,
+    CLEAR: 1,
+    CLEAR_ALL: 2,
+};
+ToastaEventType[ToastaEventType.ADD] = "ADD";
+ToastaEventType[ToastaEventType.CLEAR] = "CLEAR";
+ToastaEventType[ToastaEventType.CLEAR_ALL] = "CLEAR_ALL";
+var ToastaEvent = /** @class */ (function () {
+    function ToastaEvent(type, value) {
+        this.type = type;
+        this.value = value;
+    }
+    return ToastaEvent;
+}());
+/**
+ * @param {?} config
+ * @return {?}
+ */
+function toastaServiceFactory(config) {
+    return new ToastaService(config);
+}
+/**
+ * Toasta service helps create different kinds of Toasts
+ */
+var ToastaService = /** @class */ (function () {
+    function ToastaService(config) {
+        this.config = config;
+        // Init the counter
+        this.uniqueCounter = 0;
+        this.eventSource = new Subject();
+        this.events = this.eventSource.asObservable();
+    }
+    /**
+     * Get list of toats
+     */
+    // getToasts(): Observable<ToastData> {
+    //   return this.toastsEmitter.asObservable();
+    // }
+    // getClear(): Observable<number> {
+    //   return this.clearEmitter.asObservable();
+    // }
+    /**
+     * Create Toast of a default type
+     */
+    /**
+     * Create Toast of a default type
+     * @param {?} options
+     * @return {?}
+     */
+    ToastaService.prototype.default = /**
+     * Create Toast of a default type
+     * @param {?} options
+     * @return {?}
+     */
+    function (options) {
+        this.add(options, 'default');
+    };
+    /**
+     * Create Toast of info type
+     * @param options Individual toasta config overrides
+     */
+    /**
+     * Create Toast of info type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    ToastaService.prototype.info = /**
+     * Create Toast of info type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    function (options) {
+        this.add(options, 'info');
+    };
+    /**
+     * Create Toast of success type
+     * @param options Individual toasta config overrides
+     */
+    /**
+     * Create Toast of success type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    ToastaService.prototype.success = /**
+     * Create Toast of success type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    function (options) {
+        this.add(options, 'success');
+    };
+    /**
+     * Create Toast of wait type
+     * @param options Individual toasta config overrides
+     */
+    /**
+     * Create Toast of wait type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    ToastaService.prototype.wait = /**
+     * Create Toast of wait type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    function (options) {
+        this.add(options, 'wait');
+    };
+    /**
+     * Create Toast of error type
+     * @param options Individual toasta config overrides
+     */
+    /**
+     * Create Toast of error type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    ToastaService.prototype.error = /**
+     * Create Toast of error type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    function (options) {
+        this.add(options, 'error');
+    };
+    /**
+     * Create Toast of warning type
+     * @param options Individual toasta config overrides
+     */
+    /**
+     * Create Toast of warning type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    ToastaService.prototype.warning = /**
+     * Create Toast of warning type
+     * @param {?} options Individual toasta config overrides
+     * @return {?}
+     */
+    function (options) {
+        this.add(options, 'warning');
+    };
+    /**
+     * @param {?} options
+     * @param {?} type
+     * @return {?}
+     */
+    ToastaService.prototype.add = /**
+     * @param {?} options
+     * @param {?} type
+     * @return {?}
+     */
+    function (options, type) {
+        var /** @type {?} */ toastaOptions;
+        if (isString(options) && options !== '' || isNumber(options)) {
+            toastaOptions = /** @type {?} */ ({
+                title: options.toString()
+            });
+        }
+        else {
+            toastaOptions = /** @type {?} */ (options);
+        }
+        if (!toastaOptions || !toastaOptions.title && !toastaOptions.msg) {
+            throw new Error('ngx-toasta: No toast title or message specified!');
+        }
+        type = type || 'default';
+        // Set a unique counter for an id
+        this.uniqueCounter++;
+        // Set the local vs global config items
+        var /** @type {?} */ showClose = this._checkConfigItem(this.config, toastaOptions, 'showClose');
+        // If we have a theme set, make sure it's a valid one
+        var /** @type {?} */ theme;
+        if (toastaOptions.theme) {
+            theme = ToastaService.THEMES.indexOf(toastaOptions.theme) > -1 ? toastaOptions.theme : this.config.theme;
+        }
+        else {
+            theme = this.config.theme;
+        }
+        var /** @type {?} */ toast = /** @type {?} */ ({
+            id: this.uniqueCounter,
+            title: toastaOptions.title,
+            msg: toastaOptions.msg,
+            showClose: showClose,
+            type: 'toasta-type-' + type,
+            theme: 'toasta-theme-' + theme,
+            onAdd: toastaOptions.onAdd && isFunction(toastaOptions.onAdd) ? toastaOptions.onAdd : null,
+            onRemove: toastaOptions.onRemove && isFunction(toastaOptions.onRemove) ? toastaOptions.onRemove : null
+        });
+        // If there's a timeout individually or globally, set the toast to timeout
+        // Allows a caller to pass null/0 and override the default. Can also set the default to null/0 to turn off.
+        toast.timeout = toastaOptions.hasOwnProperty('timeout') ? toastaOptions.timeout : this.config.timeout;
+        // Push up a new toast item
+        // this.toastsSubscriber.next(toast);
+        // this.toastsEmitter.next(toast);
+        this.emitEvent(new ToastaEvent(ToastaEventType.ADD, toast));
+        // If we have a onAdd function, call it here
+        if (toastaOptions.onAdd && isFunction(toastaOptions.onAdd)) {
+            toastaOptions.onAdd.call(this, toast);
+        }
+    };
+    // Clear all toasts
+    /**
+     * @return {?}
+     */
+    ToastaService.prototype.clearAll = /**
+     * @return {?}
+     */
+    function () {
+        // this.clearEmitter.next(null);
+        this.emitEvent(new ToastaEvent(ToastaEventType.CLEAR_ALL));
+    };
+    // Clear the specific one
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    ToastaService.prototype.clear = /**
+     * @param {?} id
+     * @return {?}
+     */
+    function (id) {
+        // this.clearEmitter.next(id);
+        this.emitEvent(new ToastaEvent(ToastaEventType.CLEAR, id));
+    };
+    /**
+     * @param {?} config
+     * @param {?} options
+     * @param {?} property
+     * @return {?}
+     */
+    ToastaService.prototype._checkConfigItem = /**
+     * @param {?} config
+     * @param {?} options
+     * @param {?} property
+     * @return {?}
+     */
+    function (config, options, property) {
+        if (options[property] === false) {
+            return false;
+        }
+        else if (!options[property]) {
+            return config[property];
+        }
+        else {
+            return true;
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ToastaService.prototype.emitEvent = /**
+     * @param {?} event
+     * @return {?}
+     */
+    function (event) {
+        if (this.eventSource) {
+            // Push up a new event
+            this.eventSource.next(event);
+        }
+    };
+    // Allowed THEMES
+    ToastaService.THEMES = ['default', 'material', 'bootstrap'];
+    ToastaService.decorators = [
+        { type: Injectable },
+    ];
+    /** @nocollapse */
+    ToastaService.ctorParameters = function () { return [
+        { type: ToastaConfig }
+    ]; };
+    return ToastaService;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Toasta is container for Toast components
+ */
+var ToastaComponent = /** @class */ (function () {
+    function ToastaComponent(config, toastaService) {
+        this.config = config;
+        this.toastaService = toastaService;
+        this._position = '';
+        // The storage for toasts.
+        this.toasts = [];
+        // Initialise position
+        this.position = '';
+    }
+    Object.defineProperty(ToastaComponent.prototype, "position", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this._position;
+        },
+        // The window position where the toast pops up. Possible values:
+        // - bottom-right (default value from ToastConfig)
+        // - bottom-left
+        // - bottom-center
+        // - bottom-fullwidth
+        // - top-right
+        // - top-left
+        // - top-center
+        // - top-fullwidth
+        // - center-center
+        set: /**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
+            if (value) {
+                var /** @type {?} */ notFound = true;
+                for (var /** @type {?} */ i = 0; i < ToastaComponent.POSITIONS.length; i++) {
+                    if (ToastaComponent.POSITIONS[i] === value) {
+                        notFound = false;
+                        break;
+                    }
+                }
+                if (notFound) {
+                    // Position was wrong - clear it here to use the one from config.
+                    value = this.config.position;
+                }
+            }
+            else {
+                value = this.config.position;
+            }
+            this._position = 'toasta-position-' + value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * `ngOnInit` is called right after the directive's data-bound properties have been checked for the
+     * first time, and before any of its children have been checked. It is invoked only once when the
+     * directive is instantiated.
+     */
+    /**
+     * `ngOnInit` is called right after the directive's data-bound properties have been checked for the
+     * first time, and before any of its children have been checked. It is invoked only once when the
+     * directive is instantiated.
+     * @return {?}
+     */
+    ToastaComponent.prototype.ngOnInit = /**
+     * `ngOnInit` is called right after the directive's data-bound properties have been checked for the
+     * first time, and before any of its children have been checked. It is invoked only once when the
+     * directive is instantiated.
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        // We listen events from our service
+        this.toastaService.events.subscribe(function (event) {
+            if (event.type === ToastaEventType.ADD) {
+                // Add the new one
+                var /** @type {?} */ toast = event.value;
+                _this.add(toast);
+            }
+            else if (event.type === ToastaEventType.CLEAR) {
+                // Clear the one by number
+                var /** @type {?} */ id = event.value;
+                _this.clear(id);
+            }
+            else if (event.type === ToastaEventType.CLEAR_ALL) {
+                // Lets clear all toasts
+                // Lets clear all toasts
+                _this.clearAll();
+            }
+        });
+    };
+    /**
+     * Event listener of 'closeToast' event comes from ToastaComponent.
+     * This method removes ToastComponent assosiated with this Toast.
+     */
+    /**
+     * Event listener of 'closeToast' event comes from ToastaComponent.
+     * This method removes ToastComponent assosiated with this Toast.
+     * @param {?} toast
+     * @return {?}
+     */
+    ToastaComponent.prototype.closeToast = /**
+     * Event listener of 'closeToast' event comes from ToastaComponent.
+     * This method removes ToastComponent assosiated with this Toast.
+     * @param {?} toast
+     * @return {?}
+     */
+    function (toast) {
+        this.clear(toast.id);
+    };
+    /**
+     * Add new Toast
+     */
+    /**
+     * Add new Toast
+     * @param {?} toast
+     * @return {?}
+     */
+    ToastaComponent.prototype.add = /**
+     * Add new Toast
+     * @param {?} toast
+     * @return {?}
+     */
+    function (toast) {
+        // If we've gone over our limit, remove the earliest
+        // one from the array
+        if (this.config.limit && this.toasts.length >= this.config.limit) {
+            this.toasts.shift();
+        }
+        // Add toasta to array
+        this.toasts.push(toast);
+        //
+        // If there's a timeout individually or globally,
+        // set the toast to timeout
+        if (+toast.timeout) {
+            this._setTimeout(toast);
+        }
+    };
+    /**
+     * Clear individual toast by id
+     * @param id is unique identifier of Toast
+     */
+    /**
+     * Clear individual toast by id
+     * @param {?} id is unique identifier of Toast
+     * @return {?}
+     */
+    ToastaComponent.prototype.clear = /**
+     * Clear individual toast by id
+     * @param {?} id is unique identifier of Toast
+     * @return {?}
+     */
+    function (id) {
+        var _this = this;
+        if (id) {
+            this.toasts.forEach(function (value, key) {
+                if (value.id === id) {
+                    if (value.onRemove && isFunction(value.onRemove)) {
+                        value.onRemove.call(_this, value);
+                    }
+                    _this.toasts.splice(key, 1);
+                }
+            });
+        }
+        else {
+            throw new Error('Please provide id of Toast to close');
+        }
+    };
+    /**
+     * Clear all toasts
+     */
+    /**
+     * Clear all toasts
+     * @return {?}
+     */
+    ToastaComponent.prototype.clearAll = /**
+     * Clear all toasts
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        this.toasts.forEach(function (value, key) {
+            if (value.onRemove && isFunction(value.onRemove)) {
+                value.onRemove.call(_this, value);
+            }
+        });
+        this.toasts = [];
+    };
+    /**
+     * Custom setTimeout function for specific setTimeouts on individual toasts.
+     * @param {?} toast
+     * @return {?}
+     */
+    ToastaComponent.prototype._setTimeout = /**
+     * Custom setTimeout function for specific setTimeouts on individual toasts.
+     * @param {?} toast
+     * @return {?}
+     */
+    function (toast) {
+        var _this = this;
+        window.setTimeout(function () {
+            _this.clear(toast.id);
+        }, toast.timeout);
+    };
+    /**
+     * Set of constants defines position of Toasta on the page.
+     */
+    ToastaComponent.POSITIONS = ['bottom-right', 'bottom-left', 'bottom-center', 'bottom-fullwidth', 'top-right', 'top-left', 'top-center', 'top-fullwidth', 'center-center'];
+    ToastaComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'ngx-toasta',
+                    template: "\n    <div id=\"toasta\" [ngClass]=\"[position]\">\n        <ngx-toast *ngFor=\"let toast of toasts\" [toast]=\"toast\" (closeToast)=\"closeToast(toast)\"></ngx-toast>\n    </div>"
+                },] },
+    ];
+    /** @nocollapse */
+    ToastaComponent.ctorParameters = function () { return [
+        { type: ToastaConfig },
+        { type: ToastaService }
+    ]; };
+    ToastaComponent.propDecorators = {
+        position: [{ type: Input }]
+    };
+    return ToastaComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * A Toast component shows message with title and close button.
+ */
+var ToastComponent = /** @class */ (function () {
+    function ToastComponent() {
+        this.closeToastEvent = new EventEmitter();
+    }
+    /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     */
+    /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     * @param {?} $event
+     * @return {?}
+     */
+    ToastComponent.prototype.close = /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     * @param {?} $event
+     * @return {?}
+     */
+    function ($event) {
+        $event.preventDefault();
+        this.closeToastEvent.next(this.toast);
+    };
+    ToastComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'ngx-toast',
+                    template: "\n        <div class=\"toast\" [ngClass]=\"[toast.type, toast.theme]\">\n            <div *ngIf=\"toast.showClose\" class=\"close-button\" (click)=\"close($event)\"></div>\n            <div *ngIf=\"toast.title || toast.msg\" class=\"toast-text\">\n                <span *ngIf=\"toast.title\" class=\"toast-title\" [innerHTML]=\"toast.title | safeHtml\"></span>\n                <br *ngIf=\"toast.title && toast.msg\" />\n                <span *ngIf=\"toast.msg\" class=\"toast-msg\" [innerHtml]=\"toast.msg | safeHtml\"></span>\n            </div>\n        </div>"
+                },] },
+    ];
+    ToastComponent.propDecorators = {
+        toast: [{ type: Input }],
+        closeToastEvent: [{ type: Output, args: ['closeToast',] }]
+    };
+    return ToastComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+var SafeHtmlPipe = /** @class */ (function () {
+    function SafeHtmlPipe(domSanitized) {
+        this.domSanitized = domSanitized;
+    }
+    /**
+     * @param {?} value
+     * @param {...?} args
+     * @return {?}
+     */
+    SafeHtmlPipe.prototype.transform = /**
+     * @param {?} value
+     * @param {...?} args
+     * @return {?}
+     */
+    function (value) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return this.domSanitized.bypassSecurityTrustHtml(value);
+    };
+    SafeHtmlPipe.decorators = [
+        { type: Pipe, args: [{ name: 'safeHtml' },] },
+    ];
+    /** @nocollapse */
+    SafeHtmlPipe.ctorParameters = function () { return [
+        { type: DomSanitizer }
+    ]; };
+    return SafeHtmlPipe;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+var /** @type {?} */ providers = [
+    ToastaConfig,
+    { provide: ToastaService, useFactory: toastaServiceFactory, deps: [ToastaConfig] }
+];
+var ToastaModule = /** @class */ (function () {
+    function ToastaModule() {
+    }
+    /**
+     * @return {?}
+     */
+    ToastaModule.forRoot = /**
+     * @return {?}
+     */
+    function () {
+        return {
+            ngModule: ToastaModule,
+            providers: providers
+        };
+    };
+    ToastaModule.decorators = [
+        { type: NgModule, args: [{
+                    imports: [CommonModule],
+                    declarations: [ToastComponent, ToastaComponent, SafeHtmlPipe],
+                    exports: [ToastComponent, ToastaComponent],
+                    providers: providers
+                },] },
+    ];
+    return ToastaModule;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+
+export { ToastOptions, ToastData, ToastaConfig, ToastaEventType, ToastaEvent, toastaServiceFactory, ToastaService, ToastaComponent, ToastComponent, SafeHtmlPipe, providers, ToastaModule };
+
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibmd4LXRvYXN0YS5qcy5tYXAiLCJzb3VyY2VzIjpbIm5nOi8vbmd4LXRvYXN0YS9saWIvdG9hc3RhLnV0aWxzLnRzIiwibmc6Ly9uZ3gtdG9hc3RhL2xpYi90b2FzdGEuc2VydmljZS50cyIsIm5nOi8vbmd4LXRvYXN0YS9saWIvdG9hc3RhLmNvbXBvbmVudC50cyIsIm5nOi8vbmd4LXRvYXN0YS9saWIvdG9hc3QuY29tcG9uZW50LnRzIiwibmc6Ly9uZ3gtdG9hc3RhL2xpYi9zaGFyZWQudHMiLCJuZzovL25neC10b2FzdGEvbGliL3RvYXN0YS5tb2R1bGUudHMiXSwic291cmNlc0NvbnRlbnQiOlsiXHJcbi8qKlxyXG4gKiBDaGVjayBhbmQgcmV0dXJuIHRydWUgaWYgYW4gb2JqZWN0IGlzIHR5cGUgb2Ygc3RyaW5nXHJcbiAqIEBwYXJhbSBvYmogQW5hbHlzZSBoYXMgdG8gb2JqZWN0IHRoZSBzdHJpbmcgdHlwZVxyXG4gKiBAcmV0dXJuIHJlc3VsdCBvZiBhbmFseXNpc1xyXG4gKi9cclxuZXhwb3J0IGZ1bmN0aW9uIGlzU3RyaW5nKG9iajogYW55KTogYm9vbGVhbiB7XHJcbiAgcmV0dXJuIHR5cGVvZiBvYmogPT09IFwic3RyaW5nXCI7XHJcbn1cclxuXHJcbi8qKlxyXG4gKiBDaGVjayBhbmQgcmV0dXJuIHRydWUgaWYgYW4gb2JqZWN0IGlzIHR5cGUgb2YgbnVtYmVyXHJcbiAqIEBwYXJhbSBvYmogQW5hbHlzZSBoYXMgdG8gb2JqZWN0IHRoZSBib29sZWFuIHR5cGVcclxuICogQHJldHVybiByZXN1bHQgb2YgYW5hbHlzaXNcclxuICovXHJcbmV4cG9ydCBmdW5jdGlvbiBpc051bWJlcihvYmo6IGFueSk6IGJvb2xlYW4ge1xyXG4gIHJldHVybiB0eXBlb2Ygb2JqID09PSBcIm51bWJlclwiO1xyXG59XHJcblxyXG4vKipcclxuICogQ2hlY2sgYW5kIHJldHVybiB0cnVlIGlmIGFuIG9iamVjdCBpcyB0eXBlIG9mIEZ1bmN0aW9uXHJcbiAqIEBwYXJhbSBvYmogQW5hbHlzZSBoYXMgdG8gb2JqZWN0IHRoZSBmdW5jdGlvbiB0eXBlXHJcbiAqIEByZXR1cm4gcmVzdWx0IG9mIGFuYWx5c2lzXHJcbiAqL1xyXG5leHBvcnQgZnVuY3Rpb24gaXNGdW5jdGlvbihvYmo6IGFueSk6IGJvb2xlYW4ge1xyXG4gIHJldHVybiB0eXBlb2Ygb2JqID09PSBcImZ1bmN0aW9uXCI7XHJcbn1cclxuIiwiaW1wb3J0IHsgSW5qZWN0YWJsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5pbXBvcnQgeyBPYnNlcnZhYmxlLCBTdWJqZWN0IH0gZnJvbSAncnhqcyc7XHJcblxyXG5pbXBvcnQgeyBpc1N0cmluZywgaXNOdW1iZXIsIGlzRnVuY3Rpb24gfSBmcm9tICcuL3RvYXN0YS51dGlscyc7XHJcblxyXG5cclxuXHJcbi8qKlxyXG4gKiBPcHRpb25zIHRvIGNvbmZpZ3VyZSBhIG5ldyBUb2FzdFxyXG4gKi9cclxuQEluamVjdGFibGUoKVxyXG5leHBvcnQgY2xhc3MgVG9hc3RPcHRpb25zIHtcclxuICB0aXRsZTogc3RyaW5nO1xyXG4gIG1zZz86IHN0cmluZztcclxuICBzaG93Q2xvc2U/OiBib29sZWFuO1xyXG4gIHRoZW1lPzogc3RyaW5nO1xyXG4gIHRpbWVvdXQ/OiBudW1iZXI7XHJcbiAgb25BZGQ/OiBGdW5jdGlvbjtcclxuICBvblJlbW92ZT86IEZ1bmN0aW9uO1xyXG59XHJcblxyXG4vKipcclxuICogU3RydWN0cnVyZSBvZiBhIGNyZWF0ZWQgVG9hc3RcclxuICovXHJcbkBJbmplY3RhYmxlKClcclxuZXhwb3J0IGNsYXNzIFRvYXN0RGF0YSB7XHJcbiAgaWQ6IG51bWJlcjtcclxuICB0aXRsZTogc3RyaW5nO1xyXG4gIG1zZzogc3RyaW5nO1xyXG4gIHNob3dDbG9zZTogYm9vbGVhbjtcclxuICB0eXBlOiBzdHJpbmc7XHJcbiAgdGhlbWU6IHN0cmluZztcclxuICB0aW1lb3V0OiBudW1iZXI7XHJcbiAgb25BZGQ6IEZ1bmN0aW9uO1xyXG4gIG9uUmVtb3ZlOiBGdW5jdGlvbjtcclxuICBvbkNsaWNrOiBGdW5jdGlvbjtcclxufVxyXG5cclxuLyoqXHJcbiAqIERlZmF1bHQgY29uZmlndXJhdGlvbiBmb3IgYWxsIHRvYXN0cyBhbmQgdG9hc3RhIGNvbnRhaW5lclxyXG4gKi9cclxuQEluamVjdGFibGUoKVxyXG5leHBvcnQgY2xhc3MgVG9hc3RhQ29uZmlnIHtcclxuXHJcbiAgLy8gTWF4aW11bSBudW1iZXIgb2YgdG9hc3RpZXMgdG8gc2hvdyBhdCBvbmNlXHJcbiAgbGltaXQ6IG51bWJlciA9IDU7XHJcblxyXG4gIC8vIFdoZXRoZXIgdG8gc2hvdyB0aGUgJ1gnIGljb24gdG8gY2xvc2UgdGhlIHRvYXN0XHJcbiAgc2hvd0Nsb3NlOiBib29sZWFuID0gdHJ1ZTtcclxuXHJcbiAgLy8gVGhlIHdpbmRvdyBwb3NpdGlvbiB3aGVyZSB0aGUgdG9hc3QgcG9wcyB1cFxyXG4gIHBvc2l0aW9uOiAnYm90dG9tLXJpZ2h0JyB8ICdib3R0b20tbGVmdCcgfCAnYm90dG9tLWNlbnRlcicgfCAnYm90dG9tLWZ1bGx3aWR0aCcgfCAndG9wLXJpZ2h0JyB8ICd0b3AtbGVmdCcgfCAndG9wLWNlbnRlcicgfCAndG9wLWZ1bGx3aWR0aCcgfCAnY2VudGVyLWNlbnRlcicgPSAnYm90dG9tLXJpZ2h0JztcclxuXHJcbiAgLy8gSG93IGxvbmcgKGluIG1pbGlzZWNvbmRzKSB0aGUgdG9hc3RhIHNob3dzIGJlZm9yZSBpdCdzIHJlbW92ZWQuIFNldCB0byBudWxsLzAgdG8gdHVybiBvZmYuXHJcbiAgdGltZW91dDogbnVtYmVyID0gNTAwMDtcclxuXHJcbiAgLy8gV2hhdCB0aGVtZSB0byB1c2VcclxuICB0aGVtZTogJ2RlZmF1bHQnIHwgJ21hdGVyaWFsJyB8ICdib290c3RyYXAnID0gJ2RlZmF1bHQnO1xyXG59XHJcblxyXG5leHBvcnQgZW51bSBUb2FzdGFFdmVudFR5cGUge1xyXG4gIEFERCxcclxuICBDTEVBUixcclxuICBDTEVBUl9BTExcclxufVxyXG5cclxuZXhwb3J0IGNsYXNzIFRvYXN0YUV2ZW50IHtcclxuICBjb25zdHJ1Y3RvcihwdWJsaWMgdHlwZTogVG9hc3RhRXZlbnRUeXBlLCBwdWJsaWMgdmFsdWU/OiBhbnkpIHsgfVxyXG59XHJcblxyXG5leHBvcnQgZnVuY3Rpb24gdG9hc3RhU2VydmljZUZhY3RvcnkoY29uZmlnOiBUb2FzdGFDb25maWcpOiBUb2FzdGFTZXJ2aWNlIHtcclxuICByZXR1cm4gbmV3IFRvYXN0YVNlcnZpY2UoY29uZmlnKTtcclxufVxyXG5cclxuLyoqXHJcbiAqIFRvYXN0YSBzZXJ2aWNlIGhlbHBzIGNyZWF0ZSBkaWZmZXJlbnQga2luZHMgb2YgVG9hc3RzXHJcbiAqL1xyXG5ASW5qZWN0YWJsZSgpXHJcbmV4cG9ydCBjbGFzcyBUb2FzdGFTZXJ2aWNlIHtcclxuICAvLyBBbGxvd2VkIFRIRU1FU1xyXG4gIHN0YXRpYyBUSEVNRVM6IEFycmF5PHN0cmluZz4gPSBbJ2RlZmF1bHQnLCAnbWF0ZXJpYWwnLCAnYm9vdHN0cmFwJ107XHJcbiAgLy8gSW5pdCB0aGUgY291bnRlclxyXG4gIHVuaXF1ZUNvdW50ZXI6IG51bWJlciA9IDA7XHJcbiAgLy8gVG9hc3REYXRhIGV2ZW50IGVtaXR0ZXJcclxuICAvLyBwcml2YXRlIHRvYXN0c0VtaXR0ZXI6IEV2ZW50RW1pdHRlcjxUb2FzdERhdGE+ID0gbmV3IEV2ZW50RW1pdHRlcjxUb2FzdERhdGE+KCk7XHJcbiAgLy8gQ2xlYXIgZXZlbnQgZW1pdHRlclxyXG4gIC8vIHByaXZhdGUgY2xlYXJFbWl0dGVyOiBFdmVudEVtaXR0ZXI8bnVtYmVyPiA9IG5ldyBFdmVudEVtaXR0ZXI8bnVtYmVyPigpO1xyXG5cclxuICBwcml2YXRlIGV2ZW50U291cmNlOiBTdWJqZWN0PFRvYXN0YUV2ZW50PiA9IG5ldyBTdWJqZWN0PFRvYXN0YUV2ZW50PigpO1xyXG4gIHB1YmxpYyBldmVudHM6IE9ic2VydmFibGU8VG9hc3RhRXZlbnQ+ID0gdGhpcy5ldmVudFNvdXJjZS5hc09ic2VydmFibGUoKTtcclxuXHJcbiAgY29uc3RydWN0b3IocHJpdmF0ZSBjb25maWc6IFRvYXN0YUNvbmZpZykgeyB9XHJcblxyXG4gIC8qKlxyXG4gICAqIEdldCBsaXN0IG9mIHRvYXRzXHJcbiAgICovXHJcbiAgLy8gZ2V0VG9hc3RzKCk6IE9ic2VydmFibGU8VG9hc3REYXRhPiB7XHJcbiAgLy8gICByZXR1cm4gdGhpcy50b2FzdHNFbWl0dGVyLmFzT2JzZXJ2YWJsZSgpO1xyXG4gIC8vIH1cclxuXHJcbiAgLy8gZ2V0Q2xlYXIoKTogT2JzZXJ2YWJsZTxudW1iZXI+IHtcclxuICAvLyAgIHJldHVybiB0aGlzLmNsZWFyRW1pdHRlci5hc09ic2VydmFibGUoKTtcclxuICAvLyB9XHJcblxyXG4gIC8qKlxyXG4gICAqIENyZWF0ZSBUb2FzdCBvZiBhIGRlZmF1bHQgdHlwZVxyXG4gICAqL1xyXG4gIGRlZmF1bHQob3B0aW9uczogVG9hc3RPcHRpb25zIHwgc3RyaW5nIHwgbnVtYmVyKTogdm9pZCB7XHJcbiAgICB0aGlzLmFkZChvcHRpb25zLCAnZGVmYXVsdCcpO1xyXG4gIH1cclxuXHJcbiAgLyoqXHJcbiAgICogQ3JlYXRlIFRvYXN0IG9mIGluZm8gdHlwZVxyXG4gICAqIEBwYXJhbSBvcHRpb25zIEluZGl2aWR1YWwgdG9hc3RhIGNvbmZpZyBvdmVycmlkZXNcclxuICAgKi9cclxuICBpbmZvKG9wdGlvbnM6IFRvYXN0T3B0aW9ucyB8IHN0cmluZyB8IG51bWJlcik6IHZvaWQge1xyXG4gICAgdGhpcy5hZGQob3B0aW9ucywgJ2luZm8nKTtcclxuICB9XHJcblxyXG4gIC8qKlxyXG4gICAqIENyZWF0ZSBUb2FzdCBvZiBzdWNjZXNzIHR5cGVcclxuICAgKiBAcGFyYW0gb3B0aW9ucyBJbmRpdmlkdWFsIHRvYXN0YSBjb25maWcgb3ZlcnJpZGVzXHJcbiAgICovXHJcbiAgc3VjY2VzcyhvcHRpb25zOiBUb2FzdE9wdGlvbnMgfCBzdHJpbmcgfCBudW1iZXIpOiB2b2lkIHtcclxuICAgIHRoaXMuYWRkKG9wdGlvbnMsICdzdWNjZXNzJyk7XHJcbiAgfVxyXG5cclxuICAvKipcclxuICAgKiBDcmVhdGUgVG9hc3Qgb2Ygd2FpdCB0eXBlXHJcbiAgICogQHBhcmFtIG9wdGlvbnMgSW5kaXZpZHVhbCB0b2FzdGEgY29uZmlnIG92ZXJyaWRlc1xyXG4gICAqL1xyXG4gIHdhaXQob3B0aW9uczogVG9hc3RPcHRpb25zIHwgc3RyaW5nIHwgbnVtYmVyKTogdm9pZCB7XHJcbiAgICB0aGlzLmFkZChvcHRpb25zLCAnd2FpdCcpO1xyXG4gIH1cclxuXHJcbiAgLyoqXHJcbiAgICogQ3JlYXRlIFRvYXN0IG9mIGVycm9yIHR5cGVcclxuICAgKiBAcGFyYW0gb3B0aW9ucyBJbmRpdmlkdWFsIHRvYXN0YSBjb25maWcgb3ZlcnJpZGVzXHJcbiAgICovXHJcbiAgZXJyb3Iob3B0aW9uczogVG9hc3RPcHRpb25zIHwgc3RyaW5nIHwgbnVtYmVyKTogdm9pZCB7XHJcbiAgICB0aGlzLmFkZChvcHRpb25zLCAnZXJyb3InKTtcclxuICB9XHJcblxyXG4gIC8qKlxyXG4gICAqIENyZWF0ZSBUb2FzdCBvZiB3YXJuaW5nIHR5cGVcclxuICAgKiBAcGFyYW0gb3B0aW9ucyBJbmRpdmlkdWFsIHRvYXN0YSBjb25maWcgb3ZlcnJpZGVzXHJcbiAgICovXHJcbiAgd2FybmluZyhvcHRpb25zOiBUb2FzdE9wdGlvbnMgfCBzdHJpbmcgfCBudW1iZXIpOiB2b2lkIHtcclxuICAgIHRoaXMuYWRkKG9wdGlvbnMsICd3YXJuaW5nJyk7XHJcbiAgfVxyXG5cclxuXHJcbiAgLy8gQWRkIGEgbmV3IHRvYXN0IGl0ZW1cclxuICBwcml2YXRlIGFkZChvcHRpb25zOiBUb2FzdE9wdGlvbnMgfCBzdHJpbmcgfCBudW1iZXIsIHR5cGU6IHN0cmluZykge1xyXG4gICAgbGV0IHRvYXN0YU9wdGlvbnM6IFRvYXN0T3B0aW9ucztcclxuXHJcbiAgICBpZiAoaXNTdHJpbmcob3B0aW9ucykgJiYgb3B0aW9ucyAhPT0gJycgfHwgaXNOdW1iZXIob3B0aW9ucykpIHtcclxuICAgICAgdG9hc3RhT3B0aW9ucyA9IDxUb2FzdE9wdGlvbnM+e1xyXG4gICAgICAgIHRpdGxlOiBvcHRpb25zLnRvU3RyaW5nKClcclxuICAgICAgfTtcclxuICAgIH0gZWxzZSB7XHJcbiAgICAgIHRvYXN0YU9wdGlvbnMgPSA8VG9hc3RPcHRpb25zPm9wdGlvbnM7XHJcbiAgICB9XHJcblxyXG4gICAgaWYgKCF0b2FzdGFPcHRpb25zIHx8ICF0b2FzdGFPcHRpb25zLnRpdGxlICYmICF0b2FzdGFPcHRpb25zLm1zZykge1xyXG4gICAgICB0aHJvdyBuZXcgRXJyb3IoJ25neC10b2FzdGE6IE5vIHRvYXN0IHRpdGxlIG9yIG1lc3NhZ2Ugc3BlY2lmaWVkIScpO1xyXG4gICAgfVxyXG5cclxuICAgIHR5cGUgPSB0eXBlIHx8ICdkZWZhdWx0JztcclxuXHJcbiAgICAvLyBTZXQgYSB1bmlxdWUgY291bnRlciBmb3IgYW4gaWRcclxuICAgIHRoaXMudW5pcXVlQ291bnRlcisrO1xyXG5cclxuICAgIC8vIFNldCB0aGUgbG9jYWwgdnMgZ2xvYmFsIGNvbmZpZyBpdGVtc1xyXG4gICAgbGV0IHNob3dDbG9zZSA9IHRoaXMuX2NoZWNrQ29uZmlnSXRlbSh0aGlzLmNvbmZpZywgdG9hc3RhT3B0aW9ucywgJ3Nob3dDbG9zZScpO1xyXG5cclxuICAgIC8vIElmIHdlIGhhdmUgYSB0aGVtZSBzZXQsIG1ha2Ugc3VyZSBpdCdzIGEgdmFsaWQgb25lXHJcbiAgICBsZXQgdGhlbWU6IHN0cmluZztcclxuICAgIGlmICh0b2FzdGFPcHRpb25zLnRoZW1lKSB7XHJcbiAgICAgIHRoZW1lID0gVG9hc3RhU2VydmljZS5USEVNRVMuaW5kZXhPZih0b2FzdGFPcHRpb25zLnRoZW1lKSA+IC0xID8gdG9hc3RhT3B0aW9ucy50aGVtZSA6IHRoaXMuY29uZmlnLnRoZW1lO1xyXG4gICAgfSBlbHNlIHtcclxuICAgICAgdGhlbWUgPSB0aGlzLmNvbmZpZy50aGVtZTtcclxuICAgIH1cclxuXHJcbiAgICBsZXQgdG9hc3Q6IFRvYXN0RGF0YSA9IDxUb2FzdERhdGE+e1xyXG4gICAgICBpZDogdGhpcy51bmlxdWVDb3VudGVyLFxyXG4gICAgICB0aXRsZTogdG9hc3RhT3B0aW9ucy50aXRsZSxcclxuICAgICAgbXNnOiB0b2FzdGFPcHRpb25zLm1zZyxcclxuICAgICAgc2hvd0Nsb3NlOiBzaG93Q2xvc2UsXHJcbiAgICAgIHR5cGU6ICd0b2FzdGEtdHlwZS0nICsgdHlwZSxcclxuICAgICAgdGhlbWU6ICd0b2FzdGEtdGhlbWUtJyArIHRoZW1lLFxyXG4gICAgICBvbkFkZDogdG9hc3RhT3B0aW9ucy5vbkFkZCAmJiBpc0Z1bmN0aW9uKHRvYXN0YU9wdGlvbnMub25BZGQpID8gdG9hc3RhT3B0aW9ucy5vbkFkZCA6IG51bGwsXHJcbiAgICAgIG9uUmVtb3ZlOiB0b2FzdGFPcHRpb25zLm9uUmVtb3ZlICYmIGlzRnVuY3Rpb24odG9hc3RhT3B0aW9ucy5vblJlbW92ZSkgPyB0b2FzdGFPcHRpb25zLm9uUmVtb3ZlIDogbnVsbFxyXG4gICAgfTtcclxuXHJcbiAgICAvLyBJZiB0aGVyZSdzIGEgdGltZW91dCBpbmRpdmlkdWFsbHkgb3IgZ2xvYmFsbHksIHNldCB0aGUgdG9hc3QgdG8gdGltZW91dFxyXG4gICAgLy8gQWxsb3dzIGEgY2FsbGVyIHRvIHBhc3MgbnVsbC8wIGFuZCBvdmVycmlkZSB0aGUgZGVmYXVsdC4gQ2FuIGFsc28gc2V0IHRoZSBkZWZhdWx0IHRvIG51bGwvMCB0byB0dXJuIG9mZi5cclxuICAgIHRvYXN0LnRpbWVvdXQgPSB0b2FzdGFPcHRpb25zLmhhc093blByb3BlcnR5KCd0aW1lb3V0JykgPyB0b2FzdGFPcHRpb25zLnRpbWVvdXQgOiB0aGlzLmNvbmZpZy50aW1lb3V0O1xyXG5cclxuICAgIC8vIFB1c2ggdXAgYSBuZXcgdG9hc3QgaXRlbVxyXG4gICAgLy8gdGhpcy50b2FzdHNTdWJzY3JpYmVyLm5leHQodG9hc3QpO1xyXG4gICAgLy8gdGhpcy50b2FzdHNFbWl0dGVyLm5leHQodG9hc3QpO1xyXG4gICAgdGhpcy5lbWl0RXZlbnQobmV3IFRvYXN0YUV2ZW50KFRvYXN0YUV2ZW50VHlwZS5BREQsIHRvYXN0KSk7XHJcbiAgICAvLyBJZiB3ZSBoYXZlIGEgb25BZGQgZnVuY3Rpb24sIGNhbGwgaXQgaGVyZVxyXG4gICAgaWYgKHRvYXN0YU9wdGlvbnMub25BZGQgJiYgaXNGdW5jdGlvbih0b2FzdGFPcHRpb25zLm9uQWRkKSkge1xyXG4gICAgICB0b2FzdGFPcHRpb25zLm9uQWRkLmNhbGwodGhpcywgdG9hc3QpO1xyXG4gICAgfVxyXG4gIH1cclxuXHJcbiAgLy8gQ2xlYXIgYWxsIHRvYXN0c1xyXG4gIGNsZWFyQWxsKCkge1xyXG4gICAgLy8gdGhpcy5jbGVhckVtaXR0ZXIubmV4dChudWxsKTtcclxuICAgIHRoaXMuZW1pdEV2ZW50KG5ldyBUb2FzdGFFdmVudChUb2FzdGFFdmVudFR5cGUuQ0xFQVJfQUxMKSk7XHJcbiAgfVxyXG5cclxuICAvLyBDbGVhciB0aGUgc3BlY2lmaWMgb25lXHJcbiAgY2xlYXIoaWQ6IG51bWJlcikge1xyXG4gICAgLy8gdGhpcy5jbGVhckVtaXR0ZXIubmV4dChpZCk7XHJcbiAgICB0aGlzLmVtaXRFdmVudChuZXcgVG9hc3RhRXZlbnQoVG9hc3RhRXZlbnRUeXBlLkNMRUFSLCBpZCkpO1xyXG4gIH1cclxuXHJcbiAgLy8gQ2hlY2tzIHdoZXRoZXIgdGhlIGxvY2FsIG9wdGlvbiBpcyBzZXQsIGlmIG5vdCxcclxuICAvLyBjaGVja3MgdGhlIGdsb2JhbCBjb25maWdcclxuICBwcml2YXRlIF9jaGVja0NvbmZpZ0l0ZW0oY29uZmlnOiBhbnksIG9wdGlvbnM6IGFueSwgcHJvcGVydHk6IHN0cmluZykge1xyXG4gICAgaWYgKG9wdGlvbnNbcHJvcGVydHldID09PSBmYWxzZSkge1xyXG4gICAgICByZXR1cm4gZmFsc2U7XHJcbiAgICB9IGVsc2UgaWYgKCFvcHRpb25zW3Byb3BlcnR5XSkge1xyXG4gICAgICByZXR1cm4gY29uZmlnW3Byb3BlcnR5XTtcclxuICAgIH0gZWxzZSB7XHJcbiAgICAgIHJldHVybiB0cnVlO1xyXG4gICAgfVxyXG4gIH1cclxuXHJcbiAgcHJpdmF0ZSBlbWl0RXZlbnQoZXZlbnQ6IFRvYXN0YUV2ZW50KSB7XHJcbiAgICBpZiAodGhpcy5ldmVudFNvdXJjZSkge1xyXG4gICAgICAvLyBQdXNoIHVwIGEgbmV3IGV2ZW50XHJcbiAgICAgIHRoaXMuZXZlbnRTb3VyY2UubmV4dChldmVudCk7XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcbiIsImltcG9ydCB7IENvbXBvbmVudCwgSW5wdXQsIE9uSW5pdCB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5cclxuaW1wb3J0IHsgaXNGdW5jdGlvbiB9IGZyb20gJy4vdG9hc3RhLnV0aWxzJztcclxuaW1wb3J0IHsgVG9hc3RhU2VydmljZSwgVG9hc3REYXRhLCBUb2FzdGFDb25maWcsIFRvYXN0YUV2ZW50LCBUb2FzdGFFdmVudFR5cGUgfSBmcm9tICcuL3RvYXN0YS5zZXJ2aWNlJztcclxuXHJcbi8qKlxyXG4gKiBUb2FzdGEgaXMgY29udGFpbmVyIGZvciBUb2FzdCBjb21wb25lbnRzXHJcbiAqL1xyXG5AQ29tcG9uZW50KHtcclxuICBzZWxlY3RvcjogJ25neC10b2FzdGEnLFxyXG4gIHRlbXBsYXRlOiBgXHJcbiAgICA8ZGl2IGlkPVwidG9hc3RhXCIgW25nQ2xhc3NdPVwiW3Bvc2l0aW9uXVwiPlxyXG4gICAgICAgIDxuZ3gtdG9hc3QgKm5nRm9yPVwibGV0IHRvYXN0IG9mIHRvYXN0c1wiIFt0b2FzdF09XCJ0b2FzdFwiIChjbG9zZVRvYXN0KT1cImNsb3NlVG9hc3QodG9hc3QpXCI+PC9uZ3gtdG9hc3Q+XHJcbiAgICA8L2Rpdj5gXHJcbn0pXHJcbmV4cG9ydCBjbGFzcyBUb2FzdGFDb21wb25lbnQgaW1wbGVtZW50cyBPbkluaXQge1xyXG4gIC8qKlxyXG4gICAqIFNldCBvZiBjb25zdGFudHMgZGVmaW5lcyBwb3NpdGlvbiBvZiBUb2FzdGEgb24gdGhlIHBhZ2UuXHJcbiAgICovXHJcbiAgc3RhdGljIFBPU0lUSU9OUzogQXJyYXk8U3RyaW5nPiA9IFsnYm90dG9tLXJpZ2h0JywgJ2JvdHRvbS1sZWZ0JywgJ2JvdHRvbS1jZW50ZXInLCAnYm90dG9tLWZ1bGx3aWR0aCcsICd0b3AtcmlnaHQnLCAndG9wLWxlZnQnLCAndG9wLWNlbnRlcicsICd0b3AtZnVsbHdpZHRoJywgJ2NlbnRlci1jZW50ZXInXTtcclxuXHJcbiAgcHJpdmF0ZSBfcG9zaXRpb246IHN0cmluZyA9ICcnO1xyXG4gIC8vIFRoZSB3aW5kb3cgcG9zaXRpb24gd2hlcmUgdGhlIHRvYXN0IHBvcHMgdXAuIFBvc3NpYmxlIHZhbHVlczpcclxuICAvLyAtIGJvdHRvbS1yaWdodCAoZGVmYXVsdCB2YWx1ZSBmcm9tIFRvYXN0Q29uZmlnKVxyXG4gIC8vIC0gYm90dG9tLWxlZnRcclxuICAvLyAtIGJvdHRvbS1jZW50ZXJcclxuICAvLyAtIGJvdHRvbS1mdWxsd2lkdGhcclxuICAvLyAtIHRvcC1yaWdodFxyXG4gIC8vIC0gdG9wLWxlZnRcclxuICAvLyAtIHRvcC1jZW50ZXJcclxuICAvLyAtIHRvcC1mdWxsd2lkdGhcclxuICAvLyAtIGNlbnRlci1jZW50ZXJcclxuICBASW5wdXQoKVxyXG4gIHNldCBwb3NpdGlvbih2YWx1ZTogc3RyaW5nKSB7XHJcbiAgICBpZiAodmFsdWUpIHtcclxuICAgICAgbGV0IG5vdEZvdW5kID0gdHJ1ZTtcclxuICAgICAgZm9yIChsZXQgaSA9IDA7IGkgPCBUb2FzdGFDb21wb25lbnQuUE9TSVRJT05TLmxlbmd0aDsgaSsrKSB7XHJcbiAgICAgICAgaWYgKFRvYXN0YUNvbXBvbmVudC5QT1NJVElPTlNbaV0gPT09IHZhbHVlKSB7XHJcbiAgICAgICAgICBub3RGb3VuZCA9IGZhbHNlO1xyXG4gICAgICAgICAgYnJlYWs7XHJcbiAgICAgICAgfVxyXG4gICAgICB9XHJcbiAgICAgIGlmIChub3RGb3VuZCkge1xyXG4gICAgICAgIC8vIFBvc2l0aW9uIHdhcyB3cm9uZyAtIGNsZWFyIGl0IGhlcmUgdG8gdXNlIHRoZSBvbmUgZnJvbSBjb25maWcuXHJcbiAgICAgICAgdmFsdWUgPSB0aGlzLmNvbmZpZy5wb3NpdGlvbjtcclxuICAgICAgfVxyXG4gICAgfSBlbHNlIHtcclxuICAgICAgdmFsdWUgPSB0aGlzLmNvbmZpZy5wb3NpdGlvbjtcclxuICAgIH1cclxuICAgIHRoaXMuX3Bvc2l0aW9uID0gJ3RvYXN0YS1wb3NpdGlvbi0nICsgdmFsdWU7XHJcbiAgfVxyXG5cclxuICBnZXQgcG9zaXRpb24oKTogc3RyaW5nIHtcclxuICAgIHJldHVybiB0aGlzLl9wb3NpdGlvbjtcclxuICB9XHJcblxyXG4gIC8vIFRoZSBzdG9yYWdlIGZvciB0b2FzdHMuXHJcbiAgdG9hc3RzOiBBcnJheTxUb2FzdERhdGE+ID0gW107XHJcblxyXG4gIGNvbnN0cnVjdG9yKHByaXZhdGUgY29uZmlnOiBUb2FzdGFDb25maWcsIHByaXZhdGUgdG9hc3RhU2VydmljZTogVG9hc3RhU2VydmljZSkge1xyXG4gICAgLy8gSW5pdGlhbGlzZSBwb3NpdGlvblxyXG4gICAgdGhpcy5wb3NpdGlvbiA9ICcnO1xyXG4gIH1cclxuXHJcbiAgLyoqXHJcbiAgICogYG5nT25Jbml0YCBpcyBjYWxsZWQgcmlnaHQgYWZ0ZXIgdGhlIGRpcmVjdGl2ZSdzIGRhdGEtYm91bmQgcHJvcGVydGllcyBoYXZlIGJlZW4gY2hlY2tlZCBmb3IgdGhlXHJcbiAgICogZmlyc3QgdGltZSwgYW5kIGJlZm9yZSBhbnkgb2YgaXRzIGNoaWxkcmVuIGhhdmUgYmVlbiBjaGVja2VkLiBJdCBpcyBpbnZva2VkIG9ubHkgb25jZSB3aGVuIHRoZVxyXG4gICAqIGRpcmVjdGl2ZSBpcyBpbnN0YW50aWF0ZWQuXHJcbiAgICovXHJcbiAgbmdPbkluaXQoKTogYW55IHtcclxuICAgIC8vIFdlIGxpc3RlbiBldmVudHMgZnJvbSBvdXIgc2VydmljZVxyXG4gICAgdGhpcy50b2FzdGFTZXJ2aWNlLmV2ZW50cy5zdWJzY3JpYmUoKGV2ZW50OiBUb2FzdGFFdmVudCkgPT4ge1xyXG4gICAgICBpZiAoZXZlbnQudHlwZSA9PT0gVG9hc3RhRXZlbnRUeXBlLkFERCkge1xyXG4gICAgICAgIC8vIEFkZCB0aGUgbmV3IG9uZVxyXG4gICAgICAgIGxldCB0b2FzdDogVG9hc3REYXRhID0gZXZlbnQudmFsdWU7XHJcbiAgICAgICAgdGhpcy5hZGQodG9hc3QpO1xyXG4gICAgICB9IGVsc2UgaWYgKGV2ZW50LnR5cGUgPT09IFRvYXN0YUV2ZW50VHlwZS5DTEVBUikge1xyXG4gICAgICAgIC8vIENsZWFyIHRoZSBvbmUgYnkgbnVtYmVyXHJcbiAgICAgICAgbGV0IGlkOiBudW1iZXIgPSBldmVudC52YWx1ZTtcclxuICAgICAgICB0aGlzLmNsZWFyKGlkKTtcclxuICAgICAgfSBlbHNlIGlmIChldmVudC50eXBlID09PSBUb2FzdGFFdmVudFR5cGUuQ0xFQVJfQUxMKSB7XHJcbiAgICAgICAgLy8gTGV0cyBjbGVhciBhbGwgdG9hc3RzXHJcbiAgICAgICAgdGhpcy5jbGVhckFsbCgpO1xyXG4gICAgICB9XHJcbiAgICB9KTtcclxuICB9XHJcblxyXG4gIC8qKlxyXG4gICAqIEV2ZW50IGxpc3RlbmVyIG9mICdjbG9zZVRvYXN0JyBldmVudCBjb21lcyBmcm9tIFRvYXN0YUNvbXBvbmVudC5cclxuICAgKiBUaGlzIG1ldGhvZCByZW1vdmVzIFRvYXN0Q29tcG9uZW50IGFzc29zaWF0ZWQgd2l0aCB0aGlzIFRvYXN0LlxyXG4gICAqL1xyXG4gIGNsb3NlVG9hc3QodG9hc3Q6IFRvYXN0RGF0YSkge1xyXG4gICAgdGhpcy5jbGVhcih0b2FzdC5pZCk7XHJcbiAgfVxyXG5cclxuICAvKipcclxuICAgKiBBZGQgbmV3IFRvYXN0XHJcbiAgICovXHJcbiAgYWRkKHRvYXN0OiBUb2FzdERhdGEpIHtcclxuICAgIC8vIElmIHdlJ3ZlIGdvbmUgb3ZlciBvdXIgbGltaXQsIHJlbW92ZSB0aGUgZWFybGllc3RcclxuICAgIC8vIG9uZSBmcm9tIHRoZSBhcnJheVxyXG4gICAgaWYgKHRoaXMuY29uZmlnLmxpbWl0ICYmIHRoaXMudG9hc3RzLmxlbmd0aCA+PSB0aGlzLmNvbmZpZy5saW1pdCkge1xyXG4gICAgICB0aGlzLnRvYXN0cy5zaGlmdCgpO1xyXG4gICAgfVxyXG4gICAgLy8gQWRkIHRvYXN0YSB0byBhcnJheVxyXG4gICAgdGhpcy50b2FzdHMucHVzaCh0b2FzdCk7XHJcbiAgICAvL1xyXG4gICAgLy8gSWYgdGhlcmUncyBhIHRpbWVvdXQgaW5kaXZpZHVhbGx5IG9yIGdsb2JhbGx5LFxyXG4gICAgLy8gc2V0IHRoZSB0b2FzdCB0byB0aW1lb3V0XHJcbiAgICBpZiAoK3RvYXN0LnRpbWVvdXQpIHtcclxuICAgICAgdGhpcy5fc2V0VGltZW91dCh0b2FzdCk7XHJcbiAgICB9XHJcbiAgfVxyXG5cclxuICAvKipcclxuICAgKiBDbGVhciBpbmRpdmlkdWFsIHRvYXN0IGJ5IGlkXHJcbiAgICogQHBhcmFtIGlkIGlzIHVuaXF1ZSBpZGVudGlmaWVyIG9mIFRvYXN0XHJcbiAgICovXHJcbiAgY2xlYXIoaWQ6IG51bWJlcikge1xyXG4gICAgaWYgKGlkKSB7XHJcbiAgICAgIHRoaXMudG9hc3RzLmZvckVhY2goKHZhbHVlOiBhbnksIGtleTogbnVtYmVyKSA9PiB7XHJcbiAgICAgICAgaWYgKHZhbHVlLmlkID09PSBpZCkge1xyXG4gICAgICAgICAgaWYgKHZhbHVlLm9uUmVtb3ZlICYmIGlzRnVuY3Rpb24odmFsdWUub25SZW1vdmUpKSB7XHJcbiAgICAgICAgICAgIHZhbHVlLm9uUmVtb3ZlLmNhbGwodGhpcywgdmFsdWUpO1xyXG4gICAgICAgICAgfVxyXG4gICAgICAgICAgdGhpcy50b2FzdHMuc3BsaWNlKGtleSwgMSk7XHJcbiAgICAgICAgfVxyXG4gICAgICB9KTtcclxuICAgIH0gZWxzZSB7XHJcbiAgICAgIHRocm93IG5ldyBFcnJvcignUGxlYXNlIHByb3ZpZGUgaWQgb2YgVG9hc3QgdG8gY2xvc2UnKTtcclxuICAgIH1cclxuICB9XHJcblxyXG4gIC8qKlxyXG4gICAqIENsZWFyIGFsbCB0b2FzdHNcclxuICAgKi9cclxuICBjbGVhckFsbCgpIHtcclxuICAgIHRoaXMudG9hc3RzLmZvckVhY2goKHZhbHVlOiBhbnksIGtleTogbnVtYmVyKSA9PiB7XHJcbiAgICAgIGlmICh2YWx1ZS5vblJlbW92ZSAmJiBpc0Z1bmN0aW9uKHZhbHVlLm9uUmVtb3ZlKSkge1xyXG4gICAgICAgIHZhbHVlLm9uUmVtb3ZlLmNhbGwodGhpcywgdmFsdWUpO1xyXG4gICAgICB9XHJcbiAgICB9KTtcclxuICAgIHRoaXMudG9hc3RzID0gW107XHJcbiAgfVxyXG5cclxuICAvKipcclxuICAgKiBDdXN0b20gc2V0VGltZW91dCBmdW5jdGlvbiBmb3Igc3BlY2lmaWMgc2V0VGltZW91dHMgb24gaW5kaXZpZHVhbCB0b2FzdHMuXHJcbiAgICovXHJcbiAgcHJpdmF0ZSBfc2V0VGltZW91dCh0b2FzdDogVG9hc3REYXRhKSB7XHJcbiAgICB3aW5kb3cuc2V0VGltZW91dCgoKSA9PiB7XHJcbiAgICAgIHRoaXMuY2xlYXIodG9hc3QuaWQpO1xyXG4gICAgfSwgdG9hc3QudGltZW91dCk7XHJcbiAgfVxyXG59XHJcbiIsImltcG9ydCB7IENvbXBvbmVudCwgSW5wdXQsIE91dHB1dCwgRXZlbnRFbWl0dGVyIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XHJcblxyXG5pbXBvcnQgeyBUb2FzdERhdGEgfSBmcm9tICcuL3RvYXN0YS5zZXJ2aWNlJztcclxuXHJcbi8qKlxyXG4gKiBBIFRvYXN0IGNvbXBvbmVudCBzaG93cyBtZXNzYWdlIHdpdGggdGl0bGUgYW5kIGNsb3NlIGJ1dHRvbi5cclxuICovXHJcbkBDb21wb25lbnQoe1xyXG4gIHNlbGVjdG9yOiAnbmd4LXRvYXN0JyxcclxuICB0ZW1wbGF0ZTogYFxyXG4gICAgICAgIDxkaXYgY2xhc3M9XCJ0b2FzdFwiIFtuZ0NsYXNzXT1cIlt0b2FzdC50eXBlLCB0b2FzdC50aGVtZV1cIj5cclxuICAgICAgICAgICAgPGRpdiAqbmdJZj1cInRvYXN0LnNob3dDbG9zZVwiIGNsYXNzPVwiY2xvc2UtYnV0dG9uXCIgKGNsaWNrKT1cImNsb3NlKCRldmVudClcIj48L2Rpdj5cclxuICAgICAgICAgICAgPGRpdiAqbmdJZj1cInRvYXN0LnRpdGxlIHx8IHRvYXN0Lm1zZ1wiIGNsYXNzPVwidG9hc3QtdGV4dFwiPlxyXG4gICAgICAgICAgICAgICAgPHNwYW4gKm5nSWY9XCJ0b2FzdC50aXRsZVwiIGNsYXNzPVwidG9hc3QtdGl0bGVcIiBbaW5uZXJIVE1MXT1cInRvYXN0LnRpdGxlIHwgc2FmZUh0bWxcIj48L3NwYW4+XHJcbiAgICAgICAgICAgICAgICA8YnIgKm5nSWY9XCJ0b2FzdC50aXRsZSAmJiB0b2FzdC5tc2dcIiAvPlxyXG4gICAgICAgICAgICAgICAgPHNwYW4gKm5nSWY9XCJ0b2FzdC5tc2dcIiBjbGFzcz1cInRvYXN0LW1zZ1wiIFtpbm5lckh0bWxdPVwidG9hc3QubXNnIHwgc2FmZUh0bWxcIj48L3NwYW4+XHJcbiAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgIDwvZGl2PmBcclxufSlcclxuZXhwb3J0IGNsYXNzIFRvYXN0Q29tcG9uZW50IHtcclxuXHJcbiAgQElucHV0KCkgdG9hc3Q6IFRvYXN0RGF0YTtcclxuICBAT3V0cHV0KCdjbG9zZVRvYXN0JykgY2xvc2VUb2FzdEV2ZW50ID0gbmV3IEV2ZW50RW1pdHRlcigpO1xyXG5cclxuICAvKipcclxuICAgKiBFdmVudCBoYW5kbGVyIGludm9rZXMgd2hlbiB1c2VyIGNsaWNrcyBvbiBjbG9zZSBidXR0b24uXHJcbiAgICogVGhpcyBtZXRob2QgZW1pdCBuZXcgZXZlbnQgaW50byBUb2FzdGFDb250YWluZXIgdG8gY2xvc2UgaXQuXHJcbiAgICovXHJcbiAgY2xvc2UoJGV2ZW50OiBhbnkpIHtcclxuICAgICRldmVudC5wcmV2ZW50RGVmYXVsdCgpO1xyXG4gICAgdGhpcy5jbG9zZVRvYXN0RXZlbnQubmV4dCh0aGlzLnRvYXN0KTtcclxuICB9XHJcbn1cclxuIiwiaW1wb3J0IHsgRG9tU2FuaXRpemVyIH0gZnJvbSAnQGFuZ3VsYXIvcGxhdGZvcm0tYnJvd3Nlcic7XHJcbmltcG9ydCB7IFBpcGVUcmFuc2Zvcm0sIFBpcGUgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcclxuXHJcbkBQaXBlKHsgbmFtZTogJ3NhZmVIdG1sJyB9KVxyXG5leHBvcnQgY2xhc3MgU2FmZUh0bWxQaXBlIGltcGxlbWVudHMgUGlwZVRyYW5zZm9ybSB7XHJcbiAgY29uc3RydWN0b3IocHJpdmF0ZSBkb21TYW5pdGl6ZWQ6IERvbVNhbml0aXplcikgeyB9XHJcblxyXG4gIHRyYW5zZm9ybSh2YWx1ZTogYW55LCAuLi5hcmdzOiBhbnlbXSk6IGFueSB7XHJcbiAgICByZXR1cm4gdGhpcy5kb21TYW5pdGl6ZWQuYnlwYXNzU2VjdXJpdHlUcnVzdEh0bWwodmFsdWUpO1xyXG4gIH1cclxufVxyXG4iLCJpbXBvcnQgeyBOZ01vZHVsZSwgTW9kdWxlV2l0aFByb3ZpZGVycyB9IGZyb20gXCJAYW5ndWxhci9jb3JlXCI7XHJcbmltcG9ydCB7IENvbW1vbk1vZHVsZSB9IGZyb20gJ0Bhbmd1bGFyL2NvbW1vbic7XHJcblxyXG5cclxuaW1wb3J0IHsgVG9hc3RhQ29tcG9uZW50IH0gZnJvbSAnLi90b2FzdGEuY29tcG9uZW50JztcclxuaW1wb3J0IHsgVG9hc3RDb21wb25lbnQgfSBmcm9tICcuL3RvYXN0LmNvbXBvbmVudCc7XHJcbmltcG9ydCB7IFNhZmVIdG1sUGlwZSB9IGZyb20gJy4vc2hhcmVkJztcclxuaW1wb3J0IHsgVG9hc3RhU2VydmljZSwgVG9hc3RhQ29uZmlnLCB0b2FzdGFTZXJ2aWNlRmFjdG9yeSB9IGZyb20gJy4vdG9hc3RhLnNlcnZpY2UnO1xyXG5cclxuZXhwb3J0IGxldCBwcm92aWRlcnMgPSBbXHJcbiAgVG9hc3RhQ29uZmlnLFxyXG4gIHsgcHJvdmlkZTogVG9hc3RhU2VydmljZSwgdXNlRmFjdG9yeTogdG9hc3RhU2VydmljZUZhY3RvcnksIGRlcHM6IFtUb2FzdGFDb25maWddIH1cclxuXTtcclxuXHJcbkBOZ01vZHVsZSh7XHJcbiAgaW1wb3J0czogW0NvbW1vbk1vZHVsZV0sXHJcbiAgZGVjbGFyYXRpb25zOiBbVG9hc3RDb21wb25lbnQsIFRvYXN0YUNvbXBvbmVudCwgU2FmZUh0bWxQaXBlXSxcclxuICBleHBvcnRzOiBbVG9hc3RDb21wb25lbnQsIFRvYXN0YUNvbXBvbmVudF0sXHJcbiAgcHJvdmlkZXJzOiBwcm92aWRlcnNcclxufSlcclxuZXhwb3J0IGNsYXNzIFRvYXN0YU1vZHVsZSB7XHJcbiAgc3RhdGljIGZvclJvb3QoKTogTW9kdWxlV2l0aFByb3ZpZGVycyB7XHJcbiAgICByZXR1cm4ge1xyXG4gICAgICBuZ01vZHVsZTogVG9hc3RhTW9kdWxlLFxyXG4gICAgICBwcm92aWRlcnM6IHByb3ZpZGVyc1xyXG4gICAgfTtcclxuICB9XHJcbn1cclxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7O0FBTUEsa0JBQXlCLEdBQVE7SUFDL0IsT0FBTyxPQUFPLEdBQUcsS0FBSyxRQUFRLENBQUM7Q0FDaEM7Ozs7OztBQU9ELGtCQUF5QixHQUFRO0lBQy9CLE9BQU8sT0FBTyxHQUFHLEtBQUssUUFBUSxDQUFDO0NBQ2hDOzs7Ozs7QUFPRCxvQkFBMkIsR0FBUTtJQUNqQyxPQUFPLE9BQU8sR0FBRyxLQUFLLFVBQVUsQ0FBQztDQUNsQzs7Ozs7O0FDMUJEOzs7Ozs7O2dCQVVDLFVBQVU7O3VCQVZYOzs7Ozs7Ozs7Z0JBd0JDLFVBQVU7O29CQXhCWDs7Ozs7Ozs7cUJBNkNrQixDQUFDOzt5QkFHSSxJQUFJOzt3QkFHdUksY0FBYzs7dUJBRzVKLElBQUk7O3FCQUd3QixTQUFTOzs7Z0JBaEJ4RCxVQUFVOzt1QkF6Q1g7Ozs7Ozs7Ozs7O0FBa0VBLElBQUE7SUFDRSxxQkFBbUIsSUFBcUIsRUFBUyxLQUFXO1FBQXpDLFNBQUksR0FBSixJQUFJLENBQWlCO1FBQVMsVUFBSyxHQUFMLEtBQUssQ0FBTTtLQUFLO3NCQW5FbkU7SUFvRUMsQ0FBQTtBQUZEOzs7O0FBSUEsOEJBQXFD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

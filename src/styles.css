@@ -1,0 +1,42 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "./../node_modules/ngx-toasta/styles/style-material.css";
+
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tooltip-red {
+  background: #b71c1c;
+}
+
+.tooltip-green {
+  background: rgb(63, 155, 63);
+}
+
+.tooltip-blue {
+  background: rgb(61, 179, 233);
+}
+
+.mat-tooltip {
+  font-size: 12px;
+}
+
+
+.mat-sort-header-container {
+  display: flex;
+  justify-content: space-evenly;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mat-card {
+  margin: 1em;
+} 

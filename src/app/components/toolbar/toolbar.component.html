@@ -1,0 +1,73 @@
+<div>
+  <mat-toolbar class="color">
+    
+      <span class="companyName">Playlist</span>
+    <span class="example-spacer"></span>
+    <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide fxShow.gt-sm>
+      <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+          <!-- *ngIf="authService.isLoggedIn()" -->
+          <li class="navigation-items">
+              <mat-icon svgIcon="music" class="example-icon"></mat-icon>
+              <a mat-button type="link" routerLink="/canciones/listado"> <span class="label">Canciones</span> </a>
+            </li>
+            <li class="navigation-items">
+              <mat-icon svgIcon="music-note" class="example-icon"></mat-icon>
+              <a mat-button type="link" routerLink="/playlist/listado"> <span class="label">Playlist</span> </a>
+            </li>
+          <li  class="navigation-items">
+            <mat-icon svgIcon="account-group-outline" class="example-icon"></mat-icon>
+            <a mat-button type="link" routerLink="/usuarios/listado"> <span class="label">Usuarios</span> </a>
+          </li>
+        <li  *ngIf="!authService.isLoggedIn()" class="navigation-items">
+          <mat-icon svgIcon="account" class="example-icon"></mat-icon>
+          <a mat-button type="link" routerLink="/login"> <span class="label">Login</span> </a>
+        </li>
+        <li class="navigation-items">
+          <mat-icon svgIcon="logout-variant" class="example-icon"></mat-icon>
+          <a mat-button type="link" (click)="logOut()">
+            <span class="label">Cerrar Sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true">
+      <mat-nav-list fxLayout="column" fxLayoutGap="20px">
+          <li  class="navigation-items">
+              <mat-icon svgIcon="music" class="example-icon"></mat-icon>
+              <a mat-button type="link" routerLink="/canciones/listado"> <span class="label">Canciones</span> </a>
+            </li> 
+            <li class="navigation-items">
+              <mat-icon svgIcon="music-note" class="example-icon"></mat-icon>
+              <a mat-button type="link" routerLink="/playlist/listado"> <span class="label">Playlist</span> </a>
+            </li>
+        <li    class="navigation-items">
+            <mat-icon svgIcon="account-group-outline" class="example-icon"></mat-icon>
+            <a mat-button type="link" routerLink="/login"> <span class="label">Login</span> </a>
+          </li>
+        <li  class="navigation-items">
+          <mat-icon svgIcon="account" class="example-icon"></mat-icon>
+          <a mat-button type="link" routerLink="/usuarios/listado"> <span class="label">Usuarios</span> </a>
+        </li>
+        <li  class="navigation-items">
+          <mat-icon svgIcon="logout-variant" class="example-icon"></mat-icon>
+          <a mat-button type="link" (click)="logOut()">
+            <span class="label">Cerrar Sesión</span>
+          </a>
+        </li>
+
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <mat-toolbar class="color">
+      <div fxFlex fxLayout="row" fxLayoutAlign="space-around center">
+        <span class="label" style="color: rgb(154, 231, 119);"></span>
+        <span class="label2">&nbsp;{{ year }}</span> <span class="example-spacer"></span>
+
+      </div>
+    </mat-toolbar>
+</div>

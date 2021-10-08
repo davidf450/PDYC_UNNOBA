@@ -1,0 +1,15 @@
+mat-table{
+    width: 600px;
+}
+.mat-column-seleccionada{
+    margin-left: 30px;
+    margin-right: 0px;
+}
+.colorBoton{
+    background-color: red;
+    color: white;
+}
+.colorBotonCerrar{
+    background-color: rgb(158, 153, 153);
+    color: white;
+}

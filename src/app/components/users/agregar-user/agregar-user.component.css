@@ -1,0 +1,11 @@
+.usuario {
+    margin: 5%;
+}
+.pass-validation-error {
+    color: red;
+    border: red;
+}
+.botonAceptar{
+    background-color: rgb(154, 231, 119);
+    color: black;
+}

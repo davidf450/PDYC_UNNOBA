@@ -1,0 +1,78 @@
+<h2 mat-dialog-title >Nueva Playlist</h2>
+<mat-dialog-content class="mat-typography ">
+    <div fxLayoutGap="20px" fxLayout="column">
+        <ng-container *ngIf="datos; let datos; else: loading">
+          <div class="example-container" fxLayout="row" fxLayoutAlign="center">
+
+            <mat-card-content fxLayout="column">
+              <mat-form-field>
+                  <input
+                    [(ngModel)]="nombrePlaylist"
+                    type="text"
+                    matInput
+                    required
+                    placeholder="Nombre"
+                  />    
+                </mat-form-field>
+                <div class="mat-elevation-z8">
+              
+                  <mat-table
+                    #table
+                    [dataSource]="datos"
+                    matSort
+                    class="mat-elevation-z8"
+                  >
+                    <ng-container matColumnDef="nombre">
+                      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+                      <mat-cell *matCellDef="let data">
+                        {{ data.nombre }}
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="artista">
+                      <mat-header-cell *matHeaderCellDef>
+                       Artista
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let data">
+                        {{ data.artista }}
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="genero">
+                      <mat-header-cell *matHeaderCellDef>
+                        Genero
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let data">
+                        {{ data.genero}}
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="seleccionada">
+                        <mat-header-cell *matHeaderCellDef>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let data">
+                            <mat-checkbox class="example-margin" [(ngModel)]="data.seleccionada"></mat-checkbox>                        </mat-cell>
+                      </ng-container>
+                    <mat-header-row
+                      *matHeaderRowDef="datosColumns; sticky: true"
+                    ></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: datosColumns"></mat-row>
+                  </mat-table>
+                </div>
+             
+              </mat-card-content>
+          </div>
+        </ng-container>
+        <ng-template #loading>
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-card fxFlex>
+              <mat-card-content>
+                No se encontraron resultados de Playlist
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-template>
+      </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button class="button colorBotonCerrar" mat-button mat-dialog-close>Cerrar</button>
+  <button class="button colorBoton" mat-button mat-dialog-close>Guardar</button>
+
+</mat-dialog-actions>

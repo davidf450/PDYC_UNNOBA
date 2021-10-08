@@ -1,0 +1,49 @@
+<div class="main">
+  <mat-card class="z-depth center formLogin" flex="50">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon svgIcon="account-circle-outline"></mat-icon>
+      </div>
+      <mat-card-title class="placeholder">Bienvenido</mat-card-title>
+      <mat-card-subtitle class="placeholder"
+        >Inicio de Sesión</mat-card-subtitle
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <form
+        novalidate
+        [formGroup]="loginForm"
+        fxLayout="column"
+        fxLayoutAlign="space-around center"
+        fxLayoutGap="20px"
+        id="ngForm"
+        (ngSubmit)="onSubmit(loginForm.value)"
+      >
+        <mat-form-field>
+          <input matInput formControlName="email" autofocus />
+          <mat-placeholder class="placeholder">E-mail</mat-placeholder>
+          <mat-error *ngIf="f.email.invalid">{{ getMailError() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="password" type="password" />
+          <mat-placeholder class="placeholder">Contraseña</mat-placeholder>
+          <mat-error *ngIf="f.password.invalid">{{
+            getPasswordError()
+          }}</mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="end end">
+      <button
+        mat-flat-button
+        class="button"
+        form="ngForm"
+        [disabled]="!loginForm.valid"
+      >
+        Iniciar Sesión
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

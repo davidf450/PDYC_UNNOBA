@@ -1,0 +1,30 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Check and return true if an object is type of string
+ * @param {?} obj Analyse has to object the string type
+ * @return {?} result of analysis
+ */
+export function isString(obj) {
+    return typeof obj === "string";
+}
+/**
+ * Check and return true if an object is type of number
+ * @param {?} obj Analyse has to object the boolean type
+ * @return {?} result of analysis
+ */
+export function isNumber(obj) {
+    return typeof obj === "number";
+}
+/**
+ * Check and return true if an object is type of Function
+ * @param {?} obj Analyse has to object the function type
+ * @return {?} result of analysis
+ */
+export function isFunction(obj) {
+    return typeof obj === "function";
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidG9hc3RhLnV0aWxzLmpzIiwic291cmNlUm9vdCI6Im5nOi8vbmd4LXRvYXN0YS8iLCJzb3VyY2VzIjpbImxpYi90b2FzdGEudXRpbHMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBTUEsTUFBTSxtQkFBbUIsR0FBUTtJQUMvQixNQUFNLENBQUMsT0FBTyxHQUFHLEtBQUssUUFBUSxDQUFDO0NBQ2hDOzs7Ozs7QUFPRCxNQUFNLG1CQUFtQixHQUFRO0lBQy9CLE1BQU0sQ0FBQyxPQUFPLEdBQUcsS0FBSyxRQUFRLENBQUM7Q0FDaEM7Ozs7OztBQU9ELE1BQU0scUJBQXFCLEdBQVE7SUFDakMsTUFBTSxDQUFDLE9BQU8sR0FBRyxLQUFLLFVBQVUsQ0FBQztDQUNsQyIsInNvdXJjZXNDb250ZW50IjpbIlxyXG4vKipcclxuICogQ2hlY2sgYW5kIHJldHVybiB0cnVlIGlmIGFuIG9iamVjdCBpcyB0eXBlIG9mIHN0cmluZ1xyXG4gKiBAcGFyYW0gb2JqIEFuYWx5c2UgaGFzIHRvIG9iamVjdCB0aGUgc3RyaW5nIHR5cGVcclxuICogQHJldHVybiByZXN1bHQgb2YgYW5hbHlzaXNcclxuICovXHJcbmV4cG9ydCBmdW5jdGlvbiBpc1N0cmluZyhvYmo6IGFueSk6IGJvb2xlYW4ge1xyXG4gIHJldHVybiB0eXBlb2Ygb2JqID09PSBcInN0cmluZ1wiO1xyXG59XHJcblxyXG4vKipcclxuICogQ2hlY2sgYW5kIHJldHVybiB0cnVlIGlmIGFuIG9iamVjdCBpcyB0eXBlIG9mIG51bWJlclxyXG4gKiBAcGFyYW0gb2JqIEFuYWx5c2UgaGFzIHRvIG9iamVjdCB0aGUgYm9vbGVhbiB0eXBlXHJcbiAqIEByZXR1cm4gcmVzdWx0IG9mIGFuYWx5c2lzXHJcbiAqL1xyXG5leHBvcnQgZnVuY3Rpb24gaXNOdW1iZXIob2JqOiBhbnkpOiBib29sZWFuIHtcclxuICByZXR1cm4gdHlwZW9mIG9iaiA9PT0gXCJudW1iZXJcIjtcclxufVxyXG5cclxuLyoqXHJcbiAqIENoZWNrIGFuZCByZXR1cm4gdHJ1ZSBpZiBhbiBvYmplY3QgaXMgdHlwZSBvZiBGdW5jdGlvblxyXG4gKiBAcGFyYW0gb2JqIEFuYWx5c2UgaGFzIHRvIG9iamVjdCB0aGUgZnVuY3Rpb24gdHlwZVxyXG4gKiBAcmV0dXJuIHJlc3VsdCBvZiBhbmFseXNpc1xyXG4gKi9cclxuZXhwb3J0IGZ1bmN0aW9uIGlzRnVuY3Rpb24ob2JqOiBhbnkpOiBib29sZWFuIHtcclxuICByZXR1cm4gdHlwZW9mIG9iaiA9PT0gXCJmdW5jdGlvblwiO1xyXG59XHJcbiJdfQ==

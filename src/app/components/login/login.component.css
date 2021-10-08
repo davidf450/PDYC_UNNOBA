@@ -1,0 +1,37 @@
+.center {
+    margin: 20vh auto;
+    width: 50%;
+    padding: 10px;
+  }
+  
+  .main {
+    display: block;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  input {
+    color:rgb(0, 0, 0);
+  }
+  
+  .formLogin {
+    background: white;
+    height: 40%;
+  }
+  
+  .button {
+    margin: 10px;
+    background-color:red;
+    color: rgb(255, 255, 255);
+  }
+  
+  .placeholder {
+    color:red;
+  }
+  
+  .width {
+      width: 20vw 
+  }
+  

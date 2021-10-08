@@ -1,0 +1,83 @@
+mat-toolbar {
+  height: 7vh;
+  background-color:red;
+}
+
+div {
+  overflow: inherit;
+}
+
+mat-sidenav-container {
+  flex: 1 0 auto;
+  min-height: 86vh !important;
+}
+
+a {
+  text-decoration: none;
+  font-size: 40%;
+  white-space: normal;
+  color: rgb(255, 255, 255);
+  z-index: 1050;
+}
+
+button {
+  font-size: 50%;
+  min-width: fit-content;
+}
+span{
+  color: white;
+}
+
+
+.navigation-items {
+  align-items: center !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+.label {
+  white-space: nowrap;
+  display: inline;
+  font-size: 15px;
+  line-height: 15px;
+  margin: 0;
+  width: 45%;
+}
+
+.label2 {
+  white-space: nowrap;
+  display: inline;
+  font-size: 15px;
+  line-height: 15px;
+  margin: 0;
+  width: 55%;
+}
+.mat-menu-item {
+  font-size: 13px;
+}
+
+
+a:hover,
+a:active {
+  color: rgb(189, 184, 184);
+}
+
+li {
+  display: inline-flex !important;
+  vertical-align: middle !important;
+}
+.tamañoSpan{
+    font-size:10%;
+}
+.mat-drawer-container {
+    background-color: #636161;
+}
+.companyName {
+  font-size: 100%;
+}
+
+mat-icon{
+  color: white;
+}

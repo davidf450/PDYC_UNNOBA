@@ -1,0 +1,97 @@
+import { Observable } from 'rxjs';
+/**
+ * Options to configure a new Toast
+ */
+export declare class ToastOptions {
+    title: string;
+    msg?: string;
+    showClose?: boolean;
+    theme?: string;
+    timeout?: number;
+    onAdd?: Function;
+    onRemove?: Function;
+}
+/**
+ * Structrure of a created Toast
+ */
+export declare class ToastData {
+    id: number;
+    title: string;
+    msg: string;
+    showClose: boolean;
+    type: string;
+    theme: string;
+    timeout: number;
+    onAdd: Function;
+    onRemove: Function;
+    onClick: Function;
+}
+/**
+ * Default configuration for all toasts and toasta container
+ */
+export declare class ToastaConfig {
+    limit: number;
+    showClose: boolean;
+    position: 'bottom-right' | 'bottom-left' | 'bottom-center' | 'bottom-fullwidth' | 'top-right' | 'top-left' | 'top-center' | 'top-fullwidth' | 'center-center';
+    timeout: number;
+    theme: 'default' | 'material' | 'bootstrap';
+}
+export declare enum ToastaEventType {
+    ADD = 0,
+    CLEAR = 1,
+    CLEAR_ALL = 2,
+}
+export declare class ToastaEvent {
+    type: ToastaEventType;
+    value: any;
+    constructor(type: ToastaEventType, value?: any);
+}
+export declare function toastaServiceFactory(config: ToastaConfig): ToastaService;
+/**
+ * Toasta service helps create different kinds of Toasts
+ */
+export declare class ToastaService {
+    private config;
+    static THEMES: Array<string>;
+    uniqueCounter: number;
+    private eventSource;
+    events: Observable<ToastaEvent>;
+    constructor(config: ToastaConfig);
+    /**
+     * Get list of toats
+     */
+    /**
+     * Create Toast of a default type
+     */
+    default(options: ToastOptions | string | number): void;
+    /**
+     * Create Toast of info type
+     * @param options Individual toasta config overrides
+     */
+    info(options: ToastOptions | string | number): void;
+    /**
+     * Create Toast of success type
+     * @param options Individual toasta config overrides
+     */
+    success(options: ToastOptions | string | number): void;
+    /**
+     * Create Toast of wait type
+     * @param options Individual toasta config overrides
+     */
+    wait(options: ToastOptions | string | number): void;
+    /**
+     * Create Toast of error type
+     * @param options Individual toasta config overrides
+     */
+    error(options: ToastOptions | string | number): void;
+    /**
+     * Create Toast of warning type
+     * @param options Individual toasta config overrides
+     */
+    warning(options: ToastOptions | string | number): void;
+    private add(options, type);
+    clearAll(): void;
+    clear(id: number): void;
+    private _checkConfigItem(config, options, property);
+    private emitEvent(event);
+}

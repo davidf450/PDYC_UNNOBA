@@ -1,0 +1,90 @@
+<div fxLayoutGap="20px" fxLayout="column" fxLayoutAlign="center">
+  <div>
+    <mat-card fxLayoutAlign="space-around center">
+      <mat-card-title> Lista de Playlist</mat-card-title>
+    
+          <button
+            mat-raised-button
+            class="colorBoton"
+            (click)="nuevaPlaylist()"
+          >
+            Nueva Playlist
+          </button>
+
+   </mat-card>
+   
+  </div>
+  <div fxLayoutGap="20px" fxLayout="column">
+    <ng-container *ngIf="datos; let datos; else: loading">
+      <div class="example-container" fxLayout="row" fxLayoutAlign="center">
+        <mat-card fxFlex>
+          <mat-card-content fxLayout="column">
+            <div class="mat-elevation-z8">
+              <mat-table #table [dataSource]="datos" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="nombre">
+                  <mat-header-cell *matHeaderCellDef>
+                    Nombre
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    {{ data.name }}
+                  </mat-cell>
+                </ng-container>
+                <!-- Detalles de la playlist -->
+                <ng-container matColumnDef="detalle">
+                    <mat-header-cell *matHeaderCellDef>
+                      Detalle
+                    </mat-header-cell>
+  
+                    <mat-cell fxLayoutGap="10px" *matCellDef="let data">
+                      <a
+                        (click)="detallePlaylist(data.detalle)"
+                        type="button"
+                        matTooltip="Canciones"
+                        matTooltipClass="tooltip-green"
+                      >
+                        <mat-icon svgIcon="playlist-music"></mat-icon>
+                      </a>
+                    </mat-cell>
+                  </ng-container>
+                  <!-- Detalles de la Playlist -->
+                  <!-- Editar playlist -->
+                <ng-container matColumnDef="editar">
+                    <mat-header-cell *matHeaderCellDef>
+                      Editar Playlist
+                    </mat-header-cell>
+  
+                    <mat-cell fxLayoutGap="10px" *matCellDef="let data">
+                      <a
+                        (click)="editPlaylist()"
+                        type="button"
+                        matTooltip="Editar"
+                        matTooltipClass="tooltip-green"
+                      >
+                        <mat-icon svgIcon="pencil"></mat-icon>
+                      </a>
+                    </mat-cell>
+                  </ng-container>
+                  <!-- Editar Playlist -->
+  
+                <mat-header-row *matHeaderRowDef="datosColumns; sticky: true"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: datosColumns"></mat-row>
+              </mat-table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+ 
+    <ng-template #loading>
+      <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+        <mat-card fxFlex>
+          <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+            <h3>Lista de canciones disponibles</h3>
+          </mat-card-title>
+          <mat-card-content> No se encontraron resultados </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div>

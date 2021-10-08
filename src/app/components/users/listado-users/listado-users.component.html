@@ -1,0 +1,103 @@
+<div fxLayoutGap="20px" fxLayout="column" fxLayoutAlign="center">
+  <div>
+    <mat-card fxLayoutAlign="space-around center">
+      <mat-card-title> Listado De Usuarios</mat-card-title>
+    </mat-card>
+  </div>
+  <div fxLayoutGap="20px" fxLayout="column">
+    <ng-container *ngIf="datos; let datos; else: loading">
+      <div class="example-container" fxLayout="row" fxLayoutAlign="center">
+        <mat-card fxFlex>
+          <mat-card-content fxLayout="column">
+            <div class="mat-elevation-z8">
+              <mat-table #table [dataSource]="datos" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="idUsuario">
+                  <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                  <mat-cell *matCellDef="let data"> {{ data.idUsuario }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="nombre">
+                  <mat-header-cell *matHeaderCellDef>
+                    Nombre
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    {{ data.nombre }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="apellido">
+                  <mat-header-cell *matHeaderCellDef>
+                    Apellido
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    {{ data.apellido }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="descripcion">
+                  <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    {{ data.descripcion }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="user">
+                  <mat-header-cell *matHeaderCellDef>
+                    User
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    {{ data.user }}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="editar">
+                  <mat-header-cell *matHeaderCellDef>
+                    Editar
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    <a (click)="editarUsuario(data)" type="button" matTooltip="Editar usuario" matTooltipClass="tooltip-blue"
+                      aria-label="Usuario bloqueado a activo">
+                      <mat-icon class="info" svgIcon="account-edit"></mat-icon>
+                    </a>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="activar">
+                  <mat-header-cell *matHeaderCellDef>
+                    Activo / Bloqueado
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let data">
+                    <a (click)="activarUsuario(data)" type="button" *ngIf="data.activo === '0'" matTooltip="Habilitar usuario"
+                      matTooltipClass="tooltip-green" aria-label="Usuario bloqueado a activo">
+                      <mat-icon class="warning" svgIcon="account-remove"></mat-icon>
+                    </a>
+                    <a (click)="activarUsuario(data)" type="button" *ngIf="data.activo === '1'" matTooltip="Deshabilitar usuario"
+                      matTooltipClass="tooltip-red" aria-label="Usuario activo a bloqueado">
+                      <mat-icon class="success" svgIcon="account-check"></mat-icon>
+                    </a>
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="datosColumns; sticky: true"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: datosColumns"></mat-row>
+              </mat-table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+    <button
+    routerLink= "../agregar"
+    class=" botonF1 contenedor"
+    matTooltip="Agregar Usuario"
+    matTooltipClass="tooltip-green"
+  >
+    <span>+</span>
+  </button>
+    <ng-template #loading>
+      <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+        <mat-card fxFlex>
+          <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+            <h3>Lista de Usuarios</h3>
+          </mat-card-title>
+          <mat-card-content> No se encontraron resultados </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div>

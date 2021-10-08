@@ -1,0 +1,108 @@
+<div fxLayoutGap="20px" fxLayout="column" fxLayoutAlign="center">
+    <div>
+      <mat-card fxLayoutAlign="space-around center">
+        <mat-card-title> Canciones disponibles</mat-card-title>
+        <mat-card-actions
+        fxLayout="row"
+        fxLayoutAlign="end"
+        fxLayoutGap="20px"
+        class="longitud"
+      >
+      <!-- El select en realidad tiene que tener un listado de artista o generos que aparezcan en la api -->
+      
+      <div class="alinear">Filtro:</div>
+      <mat-form-field>
+        <mat-select
+          matInput
+          placeholder="Artista"
+          selected="true"
+          [(ngModel)]="artistaSelected"
+          [ngModelOptions]="{ standalone: true }"
+          required
+          name="artista"
+        >
+          <mat-option *ngFor="let artista of artistas" [value]="artista">
+            {{ artista }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          matInput
+          placeholder="Genero"
+          selected="true"
+          [(ngModel)]="generoSelected"
+          [ngModelOptions]="{ standalone: true }"
+          required
+          name="genero"
+        >
+          <mat-option *ngFor="let genero of generos" [value]="genero">
+            {{ genero }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button
+      mat-raised-button
+      class="colorBoton"
+      (click)="canciones()"
+    >
+    Filtrar
+    </button>
+      </mat-card-actions>
+      </mat-card>
+    </div>
+    <div fxLayoutGap="20px" fxLayout="column">
+      <ng-container *ngIf="datos; let datos; else: loading">
+        <div class="example-container" fxLayout="row" fxLayoutAlign="center">
+          <mat-card fxFlex>
+            <mat-card-content fxLayout="column">
+              <div class="mat-elevation-z8">
+                <mat-table #table [dataSource]="datos" matSort class="mat-elevation-z8">
+                  <ng-container matColumnDef="nombre">
+                    <mat-header-cell *matHeaderCellDef>
+                      Nombre
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let data">
+                      {{ data.name }}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="artista">
+                    <mat-header-cell *matHeaderCellDef>
+                      Artista
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let data">
+                      {{ data.author }}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="genero">
+                    <mat-header-cell *matHeaderCellDef> Genero </mat-header-cell>
+                    <mat-cell *matCellDef="let data">
+                      {{ data.genre }}
+                    </mat-cell>
+                  </ng-container>
+                  
+                  <mat-header-row *matHeaderRowDef="datosColumns; sticky: true"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: datosColumns"></mat-row>
+                </mat-table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+   
+      <ng-template #loading>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+          <mat-card fxFlex>
+            <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column">
+              <h3>Lista de canciones disponibles</h3>
+            </mat-card-title>
+            <mat-card-content> No se encontraron resultados </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div>
+  

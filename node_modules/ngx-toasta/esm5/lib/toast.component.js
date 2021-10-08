@@ -1,0 +1,54 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ToastData } from './toasta.service';
+/**
+ * A Toast component shows message with title and close button.
+ */
+var ToastComponent = /** @class */ (function () {
+    function ToastComponent() {
+        this.closeToastEvent = new EventEmitter();
+    }
+    /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     */
+    /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     * @param {?} $event
+     * @return {?}
+     */
+    ToastComponent.prototype.close = /**
+     * Event handler invokes when user clicks on close button.
+     * This method emit new event into ToastaContainer to close it.
+     * @param {?} $event
+     * @return {?}
+     */
+    function ($event) {
+        $event.preventDefault();
+        this.closeToastEvent.next(this.toast);
+    };
+    ToastComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'ngx-toast',
+                    template: "\n        <div class=\"toast\" [ngClass]=\"[toast.type, toast.theme]\">\n            <div *ngIf=\"toast.showClose\" class=\"close-button\" (click)=\"close($event)\"></div>\n            <div *ngIf=\"toast.title || toast.msg\" class=\"toast-text\">\n                <span *ngIf=\"toast.title\" class=\"toast-title\" [innerHTML]=\"toast.title | safeHtml\"></span>\n                <br *ngIf=\"toast.title && toast.msg\" />\n                <span *ngIf=\"toast.msg\" class=\"toast-msg\" [innerHtml]=\"toast.msg | safeHtml\"></span>\n            </div>\n        </div>"
+                },] },
+    ];
+    ToastComponent.propDecorators = {
+        toast: [{ type: Input }],
+        closeToastEvent: [{ type: Output, args: ['closeToast',] }]
+    };
+    return ToastComponent;
+}());
+export { ToastComponent };
+function ToastComponent_tsickle_Closure_declarations() {
+    /** @type {?} */
+    ToastComponent.prototype.toast;
+    /** @type {?} */
+    ToastComponent.prototype.closeToastEvent;
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidG9hc3QuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6Im5nOi8vbmd4LXRvYXN0YS8iLCJzb3VyY2VzIjpbImxpYi90b2FzdC5jb21wb25lbnQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE9BQU8sRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFFLE1BQU0sRUFBRSxZQUFZLEVBQUUsTUFBTSxlQUFlLENBQUM7QUFFdkUsT0FBTyxFQUFFLFNBQVMsRUFBRSxNQUFNLGtCQUFrQixDQUFDOzs7Ozs7K0JBb0JILElBQUksWUFBWSxFQUFFOztJQUUxRDs7O09BR0c7Ozs7Ozs7SUFDSCw4QkFBSzs7Ozs7O0lBQUwsVUFBTSxNQUFXO1FBQ2YsTUFBTSxDQUFDLGNBQWMsRUFBRSxDQUFDO1FBQ3hCLElBQUksQ0FBQyxlQUFlLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQztLQUN2Qzs7Z0JBeEJGLFNBQVMsU0FBQztvQkFDVCxRQUFRLEVBQUUsV0FBVztvQkFDckIsUUFBUSxFQUFFLHFqQkFRRztpQkFDZDs7O3dCQUdFLEtBQUs7a0NBQ0wsTUFBTSxTQUFDLFlBQVk7O3lCQXRCdEI7O1NBbUJhLGNBQWMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb21wb25lbnQsIElucHV0LCBPdXRwdXQsIEV2ZW50RW1pdHRlciB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5cclxuaW1wb3J0IHsgVG9hc3REYXRhIH0gZnJvbSAnLi90b2FzdGEuc2VydmljZSc7XHJcblxyXG4vKipcclxuICogQSBUb2FzdCBjb21wb25lbnQgc2hvd3MgbWVzc2FnZSB3aXRoIHRpdGxlIGFuZCBjbG9zZSBidXR0b24uXHJcbiAqL1xyXG5AQ29tcG9uZW50KHtcclxuICBzZWxlY3RvcjogJ25neC10b2FzdCcsXHJcbiAgdGVtcGxhdGU6IGBcclxuICAgICAgICA8ZGl2IGNsYXNzPVwidG9hc3RcIiBbbmdDbGFzc109XCJbdG9hc3QudHlwZSwgdG9hc3QudGhlbWVdXCI+XHJcbiAgICAgICAgICAgIDxkaXYgKm5nSWY9XCJ0b2FzdC5zaG93Q2xvc2VcIiBjbGFzcz1cImNsb3NlLWJ1dHRvblwiIChjbGljayk9XCJjbG9zZSgkZXZlbnQpXCI+PC9kaXY+XHJcbiAgICAgICAgICAgIDxkaXYgKm5nSWY9XCJ0b2FzdC50aXRsZSB8fCB0b2FzdC5tc2dcIiBjbGFzcz1cInRvYXN0LXRleHRcIj5cclxuICAgICAgICAgICAgICAgIDxzcGFuICpuZ0lmPVwidG9hc3QudGl0bGVcIiBjbGFzcz1cInRvYXN0LXRpdGxlXCIgW2lubmVySFRNTF09XCJ0b2FzdC50aXRsZSB8IHNhZmVIdG1sXCI+PC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgPGJyICpuZ0lmPVwidG9hc3QudGl0bGUgJiYgdG9hc3QubXNnXCIgLz5cclxuICAgICAgICAgICAgICAgIDxzcGFuICpuZ0lmPVwidG9hc3QubXNnXCIgY2xhc3M9XCJ0b2FzdC1tc2dcIiBbaW5uZXJIdG1sXT1cInRvYXN0Lm1zZyB8IHNhZmVIdG1sXCI+PC9zcGFuPlxyXG4gICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICA8L2Rpdj5gXHJcbn0pXHJcbmV4cG9ydCBjbGFzcyBUb2FzdENvbXBvbmVudCB7XHJcblxyXG4gIEBJbnB1dCgpIHRvYXN0OiBUb2FzdERhdGE7XHJcbiAgQE91dHB1dCgnY2xvc2VUb2FzdCcpIGNsb3NlVG9hc3RFdmVudCA9IG5ldyBFdmVudEVtaXR0ZXIoKTtcclxuXHJcbiAgLyoqXHJcbiAgICogRXZlbnQgaGFuZGxlciBpbnZva2VzIHdoZW4gdXNlciBjbGlja3Mgb24gY2xvc2UgYnV0dG9uLlxyXG4gICAqIFRoaXMgbWV0aG9kIGVtaXQgbmV3IGV2ZW50IGludG8gVG9hc3RhQ29udGFpbmVyIHRvIGNsb3NlIGl0LlxyXG4gICAqL1xyXG4gIGNsb3NlKCRldmVudDogYW55KSB7XHJcbiAgICAkZXZlbnQucHJldmVudERlZmF1bHQoKTtcclxuICAgIHRoaXMuY2xvc2VUb2FzdEV2ZW50Lm5leHQodGhpcy50b2FzdCk7XHJcbiAgfVxyXG59XHJcbiJdfQ==

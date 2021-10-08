@@ -1,0 +1,49 @@
+<div class="usuario">
+  <mat-card fxFlex fxLayoutAlign="space-around center">
+    <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="row">
+      <h3>{{title}}</h3>
+    </mat-card-title>
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+      <div [formGroup]="datos" fxFlex fxLayout="row" fxLayoutGap="20px">
+        <div fxLayout="column" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput required formControlName="nombre" placeholder="Nombre">
+            <mat-error>{{ errors.required }}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput required formControlName="apellido" placeholder="Apellido">
+            <mat-error>{{ errors.required }}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="descripcion" placeholder="Descripción">
+          </mat-form-field>
+        </div>
+        <div fxLayout="column" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput required formControlName="user" placeholder="Nombre de Usuario">
+            <mat-error *ngIf="user.errors?.required">{{ errors.required }}</mat-error>
+            <mat-error *ngIf="user.errors?.usernameInUse && (user.dirty || user.touched)">{{ errors.userInUse}}
+            </mat-error>
+          </mat-form-field>
+          <div fxLayout="column" fxLayoutGap="20px" formGroupName="passwordGroup">
+            <mat-form-field>
+              <input matInput required formControlName="password" placeholder="Contraseña" type="password">
+              <mat-error>{{ errors.password }}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput required formControlName="passRepeat" placeholder="Repetir Contraseña" type="password"
+                [errorStateMatcher]="confirmValidParentMatcher">
+              <mat-error>{{ errors.confirmPassword }}</mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+
+      </div>
+    </mat-card-content>
+    <mat-card-actions fxLayout="column" fxLayoutAlign="end end" fxLayoutGap="20px">
+      <button mat-raised-button class="botonAceptar" [disabled]="datos.invalid" (click)="agregar()">Confirmar</button>
+      <button mat-raised-button color="warn" (click)="goBack()">Cancelar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

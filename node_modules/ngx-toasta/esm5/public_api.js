@@ -1,0 +1,14 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/*
+ * Public API Surface of ngx-toasta
+ */
+export { ToastOptions, ToastData, ToastaConfig, ToastaEventType, ToastaEvent, toastaServiceFactory, ToastaService } from './lib/toasta.service';
+export { ToastaComponent } from './lib/toasta.component';
+export { ToastComponent } from './lib/toast.component';
+export { SafeHtmlPipe } from './lib/shared';
+export { providers, ToastaModule } from './lib/toasta.module';
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL25neC10b2FzdGEvIiwic291cmNlcyI6WyJwdWJsaWNfYXBpLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFJQSx5SEFBYyxzQkFBc0IsQ0FBQztBQUNyQyxnQ0FBYyx3QkFBd0IsQ0FBQztBQUN2QywrQkFBYyx1QkFBdUIsQ0FBQztBQUN0Qyw2QkFBYyxjQUFjLENBQUM7QUFDN0Isd0NBQWMscUJBQXFCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIG5neC10b2FzdGFcbiAqL1xuXG5leHBvcnQgKiBmcm9tICcuL2xpYi90b2FzdGEuc2VydmljZSc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi90b2FzdGEuY29tcG9uZW50JztcbmV4cG9ydCAqIGZyb20gJy4vbGliL3RvYXN0LmNvbXBvbmVudCc7XG5leHBvcnQgKiBmcm9tICcuL2xpYi9zaGFyZWQnO1xuZXhwb3J0ICogZnJvbSAnLi9saWIvdG9hc3RhLm1vZHVsZSc7XG4iXX0=

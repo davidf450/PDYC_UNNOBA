@@ -1,0 +1,72 @@
+.mat-table {
+    overflow: scroll;
+    width: 100%;
+    max-height: 500px;
+    height: 350px;
+  }
+  .mat-cell {
+    font-size: 9pt;
+    text-align: left;
+  }
+  
+  .mat-cell,
+  .mat-header-cell {
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+  
+  .mat-row:hover {
+    background-color: rgb(141, 168, 190);
+  }
+
+  .mat-sort-header-sorted {
+    color: black;
+  }
+  
+  a {
+    cursor: pointer;
+  }
+  
+  .button {
+    margin: 10px;
+    background-color: rgb(154, 231, 119);
+    color: black;
+  }
+  
+  .warning {
+    color: rgb(194, 62, 62);
+  }
+  
+  .success {
+    color: rgb(63, 155, 63);
+  }
+  
+  .info {
+    color: rgb(61, 179, 233);
+  }
+/*Boton Flotante*/
+.botonF1{
+  width:60px;
+  height:60px;
+  border-radius:100%;
+  background:rgb(244, 67, 54);
+  border:none;
+  color:#FFF;
+  bottom:0px;
+  font-size:36px;
+  margin: 180px 0 0;
+  touch-action: none;
+  border:none;
+  outline:none;
+}
+span{
+  transition:.5s;  
+}
+.contenedor{
+  position: fixed;
+  right:0px;
+  bottom:0px;
+  margin:10px 20px 50px;
+  padding: 0;
+
+}
